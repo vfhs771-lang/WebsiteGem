@@ -1,412 +1,341 @@
-<!DOCTYPE html>
-<html lang="vi">
+<!DOCTYPE html><html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lê Quốc Anh (Gem)</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lê Quốc Anh (Gem) | File cài Win & Dịch vụ online</title>
+  <style>
+    :root{
+      --bg:#07111f;
+      --bg2:#0b1730;
+      --card:rgba(255,255,255,.08);
+      --card-2:rgba(255,255,255,.12);
+      --line:rgba(255,255,255,.12);
+      --text:#eef4ff;
+      --muted:#b9c7e3;
+      --accent:#72e8ff;
+      --accent2:#8e7dff;
+      --good:#33d0a8;
+      --danger:#ff7171;
+      --shadow:0 24px 70px rgba(0,0,0,.38);
+      --radius:26px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;min-height:100%}
+    body{
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(900px 500px at 10% 10%, rgba(114,232,255,.16), transparent 42%),
+        radial-gradient(900px 500px at 90% 15%, rgba(142,125,255,.18), transparent 45%),
+        linear-gradient(180deg,var(--bg),var(--bg2));
+    }
+    a{text-decoration:none;color:inherit}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px}.nav{
+  position:sticky;top:16px;z-index:20;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:14px 18px;border:1px solid var(--line);border-radius:999px;
+  background:rgba(255,255,255,.06);backdrop-filter:blur(16px);box-shadow:var(--shadow)
+}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-badge{
+  width:44px;height:44px;border-radius:15px;display:grid;place-items:center;font-weight:900;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06111f
+}
+.brand-text strong{display:block;font-size:15px;letter-spacing:.2px}
+.brand-text span{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+.links{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:14px}
+.links a:hover{color:#fff}
 
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:22px;padding:26px 0 18px;align-items:stretch}
+.panel{
+  border:1px solid var(--line);border-radius:var(--radius);
+  background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.05));
+  backdrop-filter:blur(18px);box-shadow:var(--shadow)
+}
+.hero-left{padding:34px;position:relative;overflow:hidden}
+.hero-left:before{
+  content:"";position:absolute;inset:auto -80px -90px auto;width:240px;height:240px;border-radius:50%;
+  background:radial-gradient(circle, rgba(114,232,255,.22), transparent 65%);
+  pointer-events:none
+}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;
+  background:rgba(255,255,255,.08);border:1px solid var(--line);color:var(--muted);font-size:13px
+}
+h1{margin:18px 0 12px;font-size:clamp(34px,5vw,60px);line-height:1.02}
+.gradient{
+  background:linear-gradient(135deg,var(--accent),#ffffff 40%,var(--accent2));
+  -webkit-background-clip:text;background-clip:text;color:transparent
+}
+.lead{margin:0;max-width:62ch;color:var(--muted);line-height:1.7;font-size:16px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  padding:14px 18px;border-radius:16px;border:1px solid var(--line);
+  background:rgba(255,255,255,.08);color:#fff;font-weight:700;cursor:pointer;transition:.2s transform,.2s background
+}
+.btn:hover{transform:translateY(-2px);background:rgba(255,255,255,.12)}
+.btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06111f;border:none}
 
-    <style>
-        /* ========== RESET & BASE ========== */
-        * {
-            margin: 0;;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+.hero-right{padding:22px;display:flex;align-items:center;justify-content:center}
+.profile{
+  width:100%;padding:28px 18px;border-radius:24px;border:1px solid var(--line);
+  background:rgba(255,255,255,.06);display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px
+}
+.avatar{
+  width:160px;height:160px;border-radius:34px;overflow:hidden;position:relative;
+  background:linear-gradient(135deg,rgba(114,232,255,.28),rgba(142,125,255,.3));
+  border:1px solid rgba(255,255,255,.18);box-shadow:0 20px 45px rgba(0,0,0,.28)
+}
+.avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.avatar .placeholder{width:100%;height:100%;display:grid;place-items:center;font-size:44px;font-weight:900;color:#fff}
+.profile h2{margin:0;font-size:26px}
+.profile p{margin:0;color:var(--muted);line-height:1.6}
+.badges{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.badge{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid var(--line);font-size:13px}
 
-        body {
-            display: flex
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: radial-gradient(circle at 30% 10%, #0b1120, #0f1a2e, #070b15);
-            padding: 20px;
-            position: relative;
-            overflow-x: hidden;
-        }
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px;padding:18px 0 28px}
+.section-title{grid-column:1/-1;display:flex;align-items:end;justify-content:space-between;gap:12px}
+.section-title h3{margin:0;font-size:24px}
+.section-title span{color:var(--muted)}
+.card{
+  grid-column:span 6;padding:22px;border-radius:24px;border:1px solid var(--line);
+  background:rgba(255,255,255,.07);box-shadow:var(--shadow)
+}
+.card.full{grid-column:1/-1}
+.card h4{margin:0 0 8px;font-size:20px}
+.card p{margin:0;color:var(--muted);line-height:1.65}
 
-        /* ========== NỀN ĐỘNG VỚI HẠT ========== */
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image:
-                radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.15), transparent),
-                radial-gradient(2px 2px at 40% 70%, rgba(255,255,255,0.1), transparent),
-                radial-gradient(2px 2px at 70% 20%, rgba(255,255,255,0.12), transparent),
-                radial-gradient(2px 2px at 90% 80%, rgba(255,255,255,0.08), transparent);
-            background-size: 200px 200px;
-            opacity: 0.6;
-            z-index: 0;
-            animation: particleMove 40s linear infinite;
-        }
+.files{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:18px}
+.file-item{
+  padding:16px;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;gap:14px
+}
+.file-name{font-weight:800}
+.file-meta{color:var(--muted);font-size:13px;margin-top:4px}
+.download{
+  white-space:nowrap;padding:10px 14px;border:none;border-radius:14px;cursor:pointer;font-weight:800;
+  background:linear-gradient(135deg,var(--good),#76efc7);color:#03131a;transition:.2s transform
+}
+.download:hover{transform:translateY(-1px)}
 
-        @keyframes particleMove {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            100% { transform: translate(-60px, -40px) rotate(5deg); }
-        }
+.services{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}
+.service{padding:18px;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid var(--line)}
+.service strong{display:block;margin-bottom:7px}
 
-        /* ========== CARD CHÍNH ========== */
-        .card {
-            position: relative;
-            z-index: 2;
-            max-width: 480px;
-            width: 100%;
-            padding: 30px 25px 25px;
-            border-radius: 40px;
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.02) inset;
-            transition: 0.4s;
-        }
+.contact{display:flex;flex-wrap:wrap;gap:14px;margin-top:16px}
+.pill{padding:12px 16px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid var(--line)}
 
-        .card:hover {
-            box-shadow: 0 40px 80px rgba(0,0,0,0.8), 0 0 0 2px rgba(0, 229, 255, 0.1) inset;
-            transform: translateY(-4px);
-        }
+.footer{padding:10px 0 28px;text-align:center;color:var(--muted)}
 
-        /* ========== AVATAR ========== */
-        .avatar {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #00e5ff;
-            box-shadow: 0 0 20px rgba(0, 229, 255, 0.4), 0 0 50px rgba(0, 229, 255, 0.15);
-            display: block;
-            margin: 0 auto 16px;
-            transition: 0.3s;
-        }
-        .avatar:hover {
-            transform: scale(1.04);
-            box-shadow: 0 0 30px rgba(0, 229, 255, 0.6), 0 0 80px rgba(0, 229, 255, 0.25);
-        }
+/* password modal */
+.modal-backdrop{
+  position:fixed;inset:0;background:rgba(1,6,16,.72);backdrop-filter:blur(16px);
+  display:none;align-items:center;justify-content:center;padding:20px;z-index:100
+}
+.modal-backdrop.show{display:flex}
+.modal{
+  width:min(520px,100%);padding:24px;border-radius:28px;
+  border:1px solid rgba(255,255,255,.14);
+  background:linear-gradient(180deg,rgba(16,27,49,.98),rgba(8,16,31,.98));
+  box-shadow:0 30px 100px rgba(0,0,0,.55)
+}
+.modal h3{margin:0 0 8px;font-size:24px}
+.modal p{margin:0 0 18px;color:var(--muted);line-height:1.6}
+.input-row{display:flex;gap:10px;flex-wrap:wrap}
+input[type="password"]{
+  flex:1;min-width:220px;padding:14px 16px;border-radius:16px;border:1px solid var(--line);
+  background:rgba(255,255,255,.06);color:#fff;outline:none;font-size:15px
+}
+input[type="password"]::placeholder{color:#aab8d3}
+.err{min-height:20px;margin-top:12px;color:#ffb8b8;font-size:14px}
 
-        /* ========== THÔNG TIN CÁ NHÂN ========== */
-        h1 {
-            color: #fff;
-            font-size: 30px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            margin-top: 6px;
-        }
-        h1 span {
-            background: linear-gradient(135deg, #00e5ff, #7c3aed);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+@media (max-width: 920px){
+  .hero{grid-template-columns:1fr}
+  .card{grid-column:1/-1}
+  .files{grid-template-columns:1fr}
+  .services{grid-template-columns:1fr}
+  .nav{border-radius:24px}
+}
 
-        .subtitle {
-            color: #00e5ff;
-            font-weight: 400;
-            font-size: 18px;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-        }
-
-        .desc {
-            color: #b0c4de;
-            font-size: 15px;
-            line-height: 1.7;
-            margin: 12px 0 18px;
-            background: rgba(255,255,255,0.03);
-            padding: 12px 16px;
-            border-radius: 20px;
-            border-left: 3px solid #00e5ff;
-        }
-
-        /* ========== NÚT LIÊN HỆ CƠ BẢN ========== */
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 14px;
-            border-radius: 60px;
-            background: rgba(255, 255, 255, 0.06);
-            color: #fff;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 16px;
-            transition: 0.3s;
-            margin-bottom: 12px;
-            border: 1px solid rgba(255,255,255,0.04);
-            text-align: center;
-            letter-spacing: 0.5px;
-        }
-        .btn i {
-            margin-right: 12px;
-            width: 24px;
-            text-align: center;
-            font-size: 18px;
-        }
-        .btn:hover {
-            transform: translateY(-3px) scale(1.02);
-            background: rgba(0, 229, 255, 0.15);
-            border-color: #00e5ff;
-            box-shadow: 0 8px 25px rgba(0, 229, 255, 0.2);
-        }
-        .btn:active {
-            transform: scale(0.98);
-        }
-
-        /* ========== DỊCH VỤ ========== */
-        .services-title {
-            color: rgba(255,255,255,0.4);
-            font-size: 13px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            margin: 28px 0 14px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
-            padding-bottom: 12px;
-        }
-
-        .service-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            margin-bottom: 10px;
-        }
-
-        .service-card {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            background: rgba(255, 255, 255, 0.03);
-            padding: 14px 18px;
-            border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: 0.3s;
-            cursor: default;
-        }
-        .service-card:hover {
-            background: rgba(255, 255, 255, 0.07);
-            border-color: rgba(0, 229, 255, 0.2);
-            transform: translateX(6px);
-            box-shadow: 0 0 30px rgba(0, 229, 255, 0.05);
-        }
-
-        .service-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, rgba(0,229,255,0.2), rgba(124,58,237,0.2));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: #00e5ff;
-            flex-shrink: 0;
-            border: 1px solid rgba(0,229,255,0.15);
-        }
-
-        .service-info {
-            flex: 1;
-        }
-        .service-info h4 {
-            color: #fff;
-            font-size: 17px;
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-        .service-info p {
-            color: #8899bb;
-            font-size: 13px;
-            line-height: 1.4;
-        }
-        .service-info .price {
-            color: #00e5ff;
-            font-weight: 700;
-            font-size: 15px;
-            margin-top: 4px;
-        }
-
-        .service-btn {
-            background: rgba(0, 229, 255, 0.12);
-            border: none;
-            color: #fff;
-            padding: 8px 18px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 13px;
-            cursor: pointer;
-            transition: 0.3s;
-            white-space: nowrap;
-            border: 1px solid rgba(0,229,255,0.1);
-            text-decoration: none;
-            display: inline-block;
-        }
-        .service-btn:hover {
-            background: #00e5ff;
-            color: #0b1120;
-            box-shadow: 0 0 25px rgba(0, 229, 255, 0.3);
-            transform: scale(1.05);
-        }
-
-        /* ========== ĐỒNG HỒ ========== */
-        .clock {
-            margin: 25px 0 10px;
-            font-size: 22px;
-            font-weight: 700;
-            color: #fff;
-            letter-spacing: 3px;
-            text-align: center;
-            background: rgba(255,255,255,0.03);
-            padding: 12px;
-            border-radius: 60px;
-            border: 1px solid rgba(255,255,255,0.04);
-            font-variant-numeric: tabular-nums;
-        }
-        .clock i {
-            color: #00e5ff;
-            margin-right: 10px;
-        }
-
-        /* ========== FOOTER ========== */
-        footer {
-            margin-top: 22px;
-            color: rgba(255,255,255,0.15);
-            font-size: 13px;
-            text-align: center;
-            letter-spacing: 1.5px;
-            border-top: 1px solid rgba(255,255,255,0.03);
-            padding-top: 18px;
-        }
-        footer span {
-            color: #00e5ff;
-            font-weight: 600;
-        }
-
-        /* ========== RESPONSIVE ========== */
-        @media (max-width: 480px) {
-            .card { padding: 22px 16px 18px; }
-            .avatar { width: 120px; height: 120px; }
-            h1 { font-size: 26px; }
-            .subtitle { font-size: 16px; }
-            .service-card { flex-wrap: wrap; gap: 10px; }
-            .service-info { flex: 1 1 100%; }
-            .service-btn { width: 100%; text-align: center; }
-            .clock { font-size: 18px; padding: 10px; }
-        }
-    </style>
+  </style>
 </head>
 <body>
-
-    <!-- ====== CARD CHÍNH ====== -->
-    <div class="card">
-
-        <!-- AVATAR (thay bằng ảnh thật của mày) -->
-        <img class="avatar" src="avatar.jpg" alt="Lê Quốc Anh">
-
-        <!-- TÊN -->
-        <h1><span>Lê Quốc Anh</span></h1>
-        <div class="subtitle">(Gem) ✦Ba Khía</div>
-
-        <!-- MÔ TẢ -->
-        <div class="desc">
-            <i class="fa-regular fa-hand-peace" style="color:#00e5ff; margin-right:6px;"></i>
-            Xin chào mấy thằng em của Ba Khía!<br>
-            Sẵn sàng phục vụ các dịch vụ chất lượng.
+  <div class="wrap">
+    <header class="nav">
+      <div class="brand">
+        <div class="brand-badge">G</div>
+        <div class="brand-text">
+          <strong>Lê Quốc Anh (Gem)</strong>
+          <span>File cài Win • Dịch vụ online</span>
         </div>
-
-        <!-- ==== NÚT LIÊN HỆ CÁ NHÂN ==== -->
-        <a class="btn" href="tel:0896387698">
-            <i class="fa-solid fa-phone"></i> 0896.387.698
-        </a>
-
-        <a class="btn" href="https://www.facebook.com/share/1Et7Pvv3r3/" target="_blank">
-            <i class="fa-brands fa-facebook"></i> Facebook
-        </a>
-
-        <a class="btn" href="https://zalo.me/0896387698" target="_blank">
-            <i class="fa-solid fa-comment"></i> Zalo
-        </a>
-
-        <a class="btn" href="https://www.tiktok.com/@gem2010_0410?_r=1&_t=ZS-98HW0rtggzc" target="_blank">
-            <i class="fa-brands fa-tiktok"></i> TikTok
-        </a>
-
-        <!-- ==== DỊCH VỤ ==== -->
-        <div class="services-title">⚡ DỊCH VỤ CỦA TÔI</div>
-
-        <div class="service-grid">
-
-            <!-- Aimbot Free Fire -->
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fa-solid fa-crosshairs"></i>
-                </div>
-                <div class="service-info">
-                    <h4>Aimbot Free Fire</h4>
-                    <p>Auto headshot, aimlock, Antiban 100% , hoạt động trên PC.</p>
-                    <div class="price">💰 100K / tháng</div>
-                </div>
-                <a class="service-btn" href="https://zalo.me/0896387698" target="_blank">
-                    <i class="fa-regular fa-paper-plane"></i> Mua ngay
-                </a>
-            </div>
-
-            <!-- Cài Win Online -->
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fa-brands fa-windows"></i>
-                </div>
-                <div class="service-info">
-                    <h4>Cài Win Online</h4>
-                    <p>Cài Win 10/11 từ xa, bản quyền, phần mềm cần thiết, tối ưu gaming.</p>
-                    <div class="price">💰 70K / máy</div>
-                </div>
-                <a class="service-btn" href="https://zalo.me/0896387698" target="_blank">
-                    <i class="fa-regular fa-paper-plane"></i> Đặt lịch
-                </a>
-            </div>
-
-        </div>
-
-        <!-- ==== ĐỒNG HỒ ==== -->
-        <div class="clock" id="clock">
-            <i class="fa-regular fa-clock"></i> <span id="timeDisplay">--:--:--</span>
-        </div>
-
-        <!-- ==== FOOTER ==== -->
-        <footer>
-            © 2026 <span>Lê Quốc Anh (Gem)</span> · Powered by Lê Quốc Anh
-        </footer>
-
+      </div>
+      <nav class="links">
+        <a href="#home">Trang chủ</a>
+        <a href="#files">File tải</a>
+        <a href="#services">Dịch vụ</a>
+        <a href="#contact">Liên hệ</a>
+      </nav>
+    </header><section class="hero" id="home">
+  <div class="panel hero-left">
+    <div class="eyebrow">⚡ Website tổng hợp file cài Win chuyên nghiệp</div>
+    <h1>Kho <span class="gradient">file tải xuống</span> & dịch vụ cài Win online</h1>
+    <p class="lead">
+      Giao diện hiện đại, tối ưu cho máy tính và điện thoại. Người dùng bấm vào nút tải, nhập đúng mật khẩu mới mở file.
+    </p>
+    <div class="hero-actions">
+      <a class="btn primary" href="#files">Xem danh sách file</a>
+      <a class="btn" href="#contact">Liên hệ ngay</a>
     </div>
+  </div>
 
-    <!-- ====== SCRIPT ====== -->
-    <script>
-        // ===== CẬP NHẬT ĐỒNG HỒ =====
-        function updateClock() {
-            const now = new Date();
-            const h = String(now.getHours()).padStart(2, '0');
-            const m = String(now.getMinutes()).padStart(2, '0');
-            const s = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('timeDisplay').textContent = h + ':' + m + ':' + s;
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
+  <div class="panel hero-right">
+    <div class="profile">
+      <div class="avatar" title="Ảnh chủ trang web">
+        <!-- Thay avatar.jpg bằng ảnh thật của bạn nếu có -->
+        <img src="avatar.jpg" alt="Lê Quốc Anh (Gem)" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+        <div class="placeholder" style="display:none;">LQ</div>
+      </div>
+      <h2>Lê Quốc Anh</h2>
+      <p><strong>Gem</strong> • Hỗ trợ cài Win online • Tư vấn phần mềm</p>
+      <div class="badges">
+        <div class="badge">Uy tín</div>
+        <div class="badge">Nhanh gọn</div>
+        <div class="badge">Hỗ trợ online</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        // ===== HIỆU ỨNG HOVER CHO CÁC NÚT DỊCH VỤ =====
-        document.querySelectorAll('.service-btn').forEach(btn => {
-            btn.addEventListener('mouseenter', function() {
-                this.style.boxShadow = '0 0 30px rgba(0,229,255,0.4)';
-            });
-            btn.addEventListener('mouseleave', function() {
-                this.style.boxShadow = 'none';
-            });
-        });
+<section class="grid">
+  <div class="section-title" id="files">
+    <h3>Danh sách file tải xuống</h3>
+    <span>Mật khẩu chỉ hiện khi bấm nút tải</span>
+  </div>
 
-        // ===== (TUỲ CHỌN) LOGO CONSOLE =====
-        console.log('%c🔥 Lê Quốc Anh (Gem) - Personal Card đã sẵn sàng!', 'color: #00e5ff; font-size: 16px; font-weight: bold;');
-        console.log('%c🚀 Dịch vụ: Aimbot FF & Cài Win Online', 'color: #7c3aed; font-size: 14px;');
-    </script>
+  <div class="card full">
+    <h4>File tổng hợp cài Win</h4>
+    <p>Ấn vào nút tải dưới đây, nhập đúng mật khẩu để mở file.</p>
 
-</body>
+    <div class="files">
+      <div class="file-item">
+        <div>
+          <div class="file-name">File Win ISO 5</div>
+          <div class="file-meta">Windows ISO số 5</div>
+        </div>
+        <button class="download" data-url="https://example.com/win-iso-5.iso">Tải xuống</button>
+      </div>
+
+      <div class="file-item">
+        <div>
+          <div class="file-name">WinNT Setup</div>
+          <div class="file-meta">Cài Win từ ổ cứng</div>
+        </div>
+        <button class="download" data-url="https://example.com/winnt-setup.exe">Tải xuống</button>
+      </div>
+
+      <div class="file-item">
+        <div>
+          <div class="file-name">MiniTool</div>
+          <div class="file-meta">Quản lý phân vùng</div>
+        </div>
+        <button class="download" data-url="https://example.com/minitool.exe">Tải xuống</button>
+      </div>
+
+      <div class="file-item">
+        <div>
+          <div class="file-name">Defender Control</div>
+          <div class="file-meta">Bật / tắt Defender</div>
+        </div>
+        <button class="download" data-url="https://example.com/defender-control.exe">Tải xuống</button>
+      </div>
+
+      <div class="file-item" style="grid-column:1/-1">
+        <div>
+          <div class="file-name">Full C++ Runtime</div>
+          <div class="file-meta">Visual C++ đầy đủ</div>
+        </div>
+        <button class="download" data-url="https://example.com/vc-redist-full.exe">Tải xuống</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" id="services">
+    <h4>Dịch vụ cài Win online</h4>
+    <p>Hỗ trợ từ xa, hướng dẫn từng bước, và tư vấn setup máy tính sau cài đặt.</p>
+    <div class="services">
+      <div class="service"><strong>Cài Win từ xa</strong>Hỗ trợ cài đặt Windows online.</div>
+      <div class="service"><strong>Fix lỗi máy tính</strong>Hỗ trợ lỗi driver, phần mềm, khởi động.</div>
+      <div class="service"><strong>Setup phần mềm</strong>Gợi ý bộ công cụ cần thiết sau khi cài Win.</div>
+    </div>
+  </div>
+
+  <div class="card" id="contact">
+    <h4>Liên hệ</h4>
+    <p>Thông tin chủ trang web và số điện thoại.</p>
+    <div class="contact">
+      <div class="pill">👤 Lê Quốc Anh (Gem)</div>
+      <div class="pill">📞 0896387698</div>
+      <div class="pill">🌐 Dịch vụ cài Win online</div>
+    </div>
+  </div>
+</section>
+
+<div class="footer">© 2026 Lê Quốc Anh (Gem)</div>
+
+  </div>  <div class="modal-backdrop" id="modal">
+    <div class="modal">
+      <h3>Nhập mật khẩu để tải file</h3>
+      <p>Chỉ cần nhập đúng mật khẩu để mở liên kết tải xuống của file vừa chọn.</p>
+      <div class="input-row">
+        <input id="passInput" type="password" placeholder="Nhập mật khẩu..." autocomplete="off" />
+        <button class="btn primary" id="unlockBtn">Xác nhận</button>
+      </div>
+      <div class="err" id="errMsg"></div>
+    </div>
+  </div>  <script>
+    const PASSWORD = "Lequocanh2010@";
+    const modal = document.getElementById('modal');
+    const passInput = document.getElementById('passInput');
+    const errMsg = document.getElementById('errMsg');
+    const unlockBtn = document.getElementById('unlockBtn');
+    const downloads = document.querySelectorAll('.download');
+    let selectedUrl = "";
+
+    function openModal(url){
+      selectedUrl = url;
+      errMsg.textContent = '';
+      passInput.value = '';
+      modal.classList.add('show');
+      setTimeout(() => passInput.focus(), 50);
+    }
+
+    function closeModal(){
+      modal.classList.remove('show');
+    }
+
+    function unlock(){
+      const value = passInput.value.trim();
+      if(value === PASSWORD){
+        closeModal();
+        if(selectedUrl) window.open(selectedUrl, '_blank');
+      } else {
+        errMsg.textContent = 'Sai mật khẩu. Vui lòng nhập lại.';
+      }
+    }
+
+    downloads.forEach(btn => {
+      btn.addEventListener('click', () => openModal(btn.dataset.url));
+    });
+
+    unlockBtn.addEventListener('click', unlock);
+    passInput.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter') unlock();
+      if(e.key === 'Escape') closeModal();
+    });
+
+    modal.addEventListener('click', (e) => {
+      if(e.target === modal) closeModal();
+    });
+  </script></body>
 </html>
