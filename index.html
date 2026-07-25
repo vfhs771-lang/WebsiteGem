@@ -2,204 +2,51 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gem | Bio Link</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lê Quốc Anh (Gem) | Bio Link</title>
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-}
-
-body{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-overflow:hidden;
-position:relative;
-}
-
-body::before{
-content:"";
-position:absolute;
-width:700px;
-height:700px;
-background:radial-gradient(circle,#00c6ff55,transparent 70%);
-top:-250px;
-right:-150px;
-}
-
-body::after{
-content:"";
-position:absolute;
-width:600px;
-height:600px;
-background:radial-gradient(circle,#ff00ff33,transparent 70%);
-bottom:-250px;
-left:-150px;
-}
-
-.card{
-position:relative;
-z-index:2;
-width:380px;
-padding:35px;
-border-radius:25px;
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(15px);
-border:1px solid rgba(255,255,255,.2);
-box-shadow:0 15px 40px rgba(0,0,0,.45);
-text-align:center;
-animation:fade 1s ease;
-}
-
-@keyframes fade{
-from{opacity:0;transform:translateY(30px);}
-to{opacity:1;transform:translateY(0);}
-}
-
-.avatar{
-width:140px;
-height:140px;
-border-radius:50%;
-object-fit:cover;
-border:4px solid white;
-box-shadow:0 0 30px #00d4ff;
-}
-
-h1{
-margin-top:20px;
-color:white;
-font-size:32px;
-font-weight:700;
-}
-
-.role{
-color:#d7d7d7;
-margin-top:8px;
-font-size:15px;
-}
-
-.phone{
-margin-top:18px;
-color:#ffffff;
-font-size:18px;
-font-weight:600;
-}
-
-.line{
-width:80px;
-height:4px;
-margin:22px auto;
-background:#00d4ff;
-border-radius:30px;
-}
-
-a{
-display:flex;
-align-items:center;
-justify-content:center;
-gap:10px;
-text-decoration:none;
-padding:15px;
-margin:14px 0;
-border-radius:14px;
-font-size:17px;
-font-weight:600;
-transition:.3s;
-color:white;
-}
-
-.facebook{
-background:#1877F2;
-}
-
-.zalo{
-background:#0068FF;
-}
-
-.tiktok{
-background:#111111;
-border:1px solid white;
-}
-
-a:hover{
-transform:translateY(-4px) scale(1.03);
-box-shadow:0 12px 25px rgba(0,0,0,.4);
-}
-
-.footer{
-margin-top:22px;
-font-size:13px;
-color:#ddd;
-}
-
-.glow{
-position:absolute;
-width:120px;
-height:120px;
-border-radius:50%;
-background:#00d4ff;
-filter:blur(90px);
-opacity:.25;
-animation:move 8s infinite alternate;
-}
-
-@keyframes move{
-from{
-transform:translate(-150px,-80px);
-}
-to{
-transform:translate(150px,100px);
-}
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{overflow:hidden;display:flex;justify-content:center;align-items:center;height:100vh;background:linear-gradient(-45deg,#0f2027,#203a43,#2c5364,#4b0082);background-size:400% 400%;animation:bg 12s ease infinite}
+@keyframes bg{0%{background-position:0 50%}100%{background-position:100% 50%}}
+#p{position:fixed;inset:0;z-index:0}
+.card{position:relative;z-index:1;width:380px;background:rgba(255,255,255,.08);backdrop-filter:blur(12px);padding:30px;border-radius:22px;text-align:center;color:#fff;border:1px solid rgba(255,255,255,.2);box-shadow:0 15px 40px rgba(0,0,0,.4)}
+.avatar{width:140px;height:140px;border-radius:50%;border:4px solid #fff;object-fit:cover;box-shadow:0 0 25px #00d4ff}
+h1{margin:18px 0 6px;text-shadow:0 0 12px #00d4ff}
+.role{color:#ddd}.phone{margin:15px 0;font-weight:bold}
+a{display:block;text-decoration:none;color:#fff;padding:14px;margin:12px 0;border-radius:12px;font-weight:bold;transition:.3s}
+a:hover{transform:translateY(-3px) scale(1.03)}
+.zalo{background:#0068ff}.facebook{background:#1877f2}.tiktok{background:#111;border:1px solid #fff}
+.footer{margin-top:18px;color:#ddd;font-size:13px}
 </style>
 </head>
-
 <body>
-
-<div class="glow"></div>
-
+<canvas id="p"></canvas>
 <div class="card">
-
-<img src="avatar.jpg" class="avatar">
-
-<h1>Lê Quốc Anh (Gem)</h1>
-
-<div class="role">
-Welcome to my personal page
+<div style="font-size:30px;font-weight:700;text-shadow:0 0 15px #00d4ff;margin-bottom:15px">LÊ QUỐC ANH (GEM)</div>
+<img class="avatar" src="avatar.jpg" alt="avatar">
+<h1>Gem</h1>
+<div class="role">🔥 Chào thằng em đã đến web của anh ba 🔥</div>
+<div class="phone">📞 0896387698</div>
+<a class="zalo" href="https://zalo.me/0896387698" target="_blank">💙 Zalo</a>
+<a class="facebook" href="https://www.facebook.com/quoc.anh.le.352367/" target="_blank">📘 Facebook</a>
+<a class="tiktok" href="https://www.tiktok.com/@gem2010_0410" target="_blank">🎵 TikTok</a>
+<div class="footer">© 2026 • Designed by Lê Quốc Anh (Gem)</div>
 </div>
-
-<div class="phone">
-📞 0896387698
-</div>
-
-<div class="line"></div>
-
-<a class="zalo" href="https://zalo.me/0896387698" target="_blank">
-💙 Zalo
-</a>
-
-<a class="facebook" href="https://www.facebook.com/quoc.anh.le.352367/" target="_blank">
-📘 Facebook
-</a>
-
-<a class="tiktok" href="https://www.tiktok.com/@gem2010_0410" target="_blank">
-🎵 TikTok
-</a>
-
-<div class="footer">
-© 2026 • Designed by Gem
-</div>
-
-</div>
-
-</body>
-</html>
+<script>
+const c=document.getElementById('p'),x=c.getContext('2d');
+function rs(){c.width=innerWidth;c.height=innerHeight}rs();onresize=rs;
+let a=[...Array(180)].map(()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*2+1,s:Math.random()*2+1}));
+(function f(){x.clearRect(0,0,c.width,c.height);x.fillStyle="rgba(255,255,255,.9)";
+for(let p of a){x.beginPath();x.arc(p.x,p.y,p.r,0,6.28);x.fill();p.y+=p.s;p.x+=Math.sin(p.y/40)*.3;if(p.y>c.height){p.y=-10;p.x=Math.random()*c.width}}
+requestAnimationFrame(f)})();
+</script>
+<script>
+const glow=document.createElement('div');
+glow.style.cssText='position:fixed;width:220px;height:220px;border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(0,212,255,.35),rgba(0,212,255,.12),transparent 70%);filter:blur(18px);z-index:0;';
+document.body.appendChild(glow);
+window.addEventListener('mousemove',e=>{
+ glow.style.left=e.clientX+'px';
+ glow.style.top=e.clientY+'px';
+});
+</script>
+</body></html>
