@@ -1,341 +1,205 @@
-<!DOCTYPE html><html lang="vi">
+<!DOCTYPE html>
+<html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lê Quốc Anh (Gem) | File cài Win & Dịch vụ online</title>
-  <style>
-    :root{
-      --bg:#07111f;
-      --bg2:#0b1730;
-      --card:rgba(255,255,255,.08);
-      --card-2:rgba(255,255,255,.12);
-      --line:rgba(255,255,255,.12);
-      --text:#eef4ff;
-      --muted:#b9c7e3;
-      --accent:#72e8ff;
-      --accent2:#8e7dff;
-      --good:#33d0a8;
-      --danger:#ff7171;
-      --shadow:0 24px 70px rgba(0,0,0,.38);
-      --radius:26px;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;min-height:100%}
-    body{
-      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(900px 500px at 10% 10%, rgba(114,232,255,.16), transparent 42%),
-        radial-gradient(900px 500px at 90% 15%, rgba(142,125,255,.18), transparent 45%),
-        linear-gradient(180deg,var(--bg),var(--bg2));
-    }
-    a{text-decoration:none;color:inherit}
-    .wrap{max-width:1180px;margin:0 auto;padding:24px}.nav{
-  position:sticky;top:16px;z-index:20;
-  display:flex;align-items:center;justify-content:space-between;gap:16px;
-  padding:14px 18px;border:1px solid var(--line);border-radius:999px;
-  background:rgba(255,255,255,.06);backdrop-filter:blur(16px);box-shadow:var(--shadow)
-}
-.brand{display:flex;align-items:center;gap:12px}
-.brand-badge{
-  width:44px;height:44px;border-radius:15px;display:grid;place-items:center;font-weight:900;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06111f
-}
-.brand-text strong{display:block;font-size:15px;letter-spacing:.2px}
-.brand-text span{display:block;font-size:12px;color:var(--muted);margin-top:2px}
-.links{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:14px}
-.links a:hover{color:#fff}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gem | Bio Link</title>
 
-.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:22px;padding:26px 0 18px;align-items:stretch}
-.panel{
-  border:1px solid var(--line);border-radius:var(--radius);
-  background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.05));
-  backdrop-filter:blur(18px);box-shadow:var(--shadow)
-}
-.hero-left{padding:34px;position:relative;overflow:hidden}
-.hero-left:before{
-  content:"";position:absolute;inset:auto -80px -90px auto;width:240px;height:240px;border-radius:50%;
-  background:radial-gradient(circle, rgba(114,232,255,.22), transparent 65%);
-  pointer-events:none
-}
-.eyebrow{
-  display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;
-  background:rgba(255,255,255,.08);border:1px solid var(--line);color:var(--muted);font-size:13px
-}
-h1{margin:18px 0 12px;font-size:clamp(34px,5vw,60px);line-height:1.02}
-.gradient{
-  background:linear-gradient(135deg,var(--accent),#ffffff 40%,var(--accent2));
-  -webkit-background-clip:text;background-clip:text;color:transparent
-}
-.lead{margin:0;max-width:62ch;color:var(--muted);line-height:1.7;font-size:16px}
-.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:10px;
-  padding:14px 18px;border-radius:16px;border:1px solid var(--line);
-  background:rgba(255,255,255,.08);color:#fff;font-weight:700;cursor:pointer;transition:.2s transform,.2s background
-}
-.btn:hover{transform:translateY(-2px);background:rgba(255,255,255,.12)}
-.btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06111f;border:none}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-.hero-right{padding:22px;display:flex;align-items:center;justify-content:center}
-.profile{
-  width:100%;padding:28px 18px;border-radius:24px;border:1px solid var(--line);
-  background:rgba(255,255,255,.06);display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
 }
-.avatar{
-  width:160px;height:160px;border-radius:34px;overflow:hidden;position:relative;
-  background:linear-gradient(135deg,rgba(114,232,255,.28),rgba(142,125,255,.3));
-  border:1px solid rgba(255,255,255,.18);box-shadow:0 20px 45px rgba(0,0,0,.28)
-}
-.avatar img{width:100%;height:100%;object-fit:cover;display:block}
-.avatar .placeholder{width:100%;height:100%;display:grid;place-items:center;font-size:44px;font-weight:900;color:#fff}
-.profile h2{margin:0;font-size:26px}
-.profile p{margin:0;color:var(--muted);line-height:1.6}
-.badges{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
-.badge{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid var(--line);font-size:13px}
 
-.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px;padding:18px 0 28px}
-.section-title{grid-column:1/-1;display:flex;align-items:end;justify-content:space-between;gap:12px}
-.section-title h3{margin:0;font-size:24px}
-.section-title span{color:var(--muted)}
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+overflow:hidden;
+position:relative;
+}
+
+body::before{
+content:"";
+position:absolute;
+width:700px;
+height:700px;
+background:radial-gradient(circle,#00c6ff55,transparent 70%);
+top:-250px;
+right:-150px;
+}
+
+body::after{
+content:"";
+position:absolute;
+width:600px;
+height:600px;
+background:radial-gradient(circle,#ff00ff33,transparent 70%);
+bottom:-250px;
+left:-150px;
+}
+
 .card{
-  grid-column:span 6;padding:22px;border-radius:24px;border:1px solid var(--line);
-  background:rgba(255,255,255,.07);box-shadow:var(--shadow)
-}
-.card.full{grid-column:1/-1}
-.card h4{margin:0 0 8px;font-size:20px}
-.card p{margin:0;color:var(--muted);line-height:1.65}
-
-.files{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:18px}
-.file-item{
-  padding:16px;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid var(--line);
-  display:flex;align-items:center;justify-content:space-between;gap:14px
-}
-.file-name{font-weight:800}
-.file-meta{color:var(--muted);font-size:13px;margin-top:4px}
-.download{
-  white-space:nowrap;padding:10px 14px;border:none;border-radius:14px;cursor:pointer;font-weight:800;
-  background:linear-gradient(135deg,var(--good),#76efc7);color:#03131a;transition:.2s transform
-}
-.download:hover{transform:translateY(-1px)}
-
-.services{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}
-.service{padding:18px;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid var(--line)}
-.service strong{display:block;margin-bottom:7px}
-
-.contact{display:flex;flex-wrap:wrap;gap:14px;margin-top:16px}
-.pill{padding:12px 16px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid var(--line)}
-
-.footer{padding:10px 0 28px;text-align:center;color:var(--muted)}
-
-/* password modal */
-.modal-backdrop{
-  position:fixed;inset:0;background:rgba(1,6,16,.72);backdrop-filter:blur(16px);
-  display:none;align-items:center;justify-content:center;padding:20px;z-index:100
-}
-.modal-backdrop.show{display:flex}
-.modal{
-  width:min(520px,100%);padding:24px;border-radius:28px;
-  border:1px solid rgba(255,255,255,.14);
-  background:linear-gradient(180deg,rgba(16,27,49,.98),rgba(8,16,31,.98));
-  box-shadow:0 30px 100px rgba(0,0,0,.55)
-}
-.modal h3{margin:0 0 8px;font-size:24px}
-.modal p{margin:0 0 18px;color:var(--muted);line-height:1.6}
-.input-row{display:flex;gap:10px;flex-wrap:wrap}
-input[type="password"]{
-  flex:1;min-width:220px;padding:14px 16px;border-radius:16px;border:1px solid var(--line);
-  background:rgba(255,255,255,.06);color:#fff;outline:none;font-size:15px
-}
-input[type="password"]::placeholder{color:#aab8d3}
-.err{min-height:20px;margin-top:12px;color:#ffb8b8;font-size:14px}
-
-@media (max-width: 920px){
-  .hero{grid-template-columns:1fr}
-  .card{grid-column:1/-1}
-  .files{grid-template-columns:1fr}
-  .services{grid-template-columns:1fr}
-  .nav{border-radius:24px}
+position:relative;
+z-index:2;
+width:380px;
+padding:35px;
+border-radius:25px;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(15px);
+border:1px solid rgba(255,255,255,.2);
+box-shadow:0 15px 40px rgba(0,0,0,.45);
+text-align:center;
+animation:fade 1s ease;
 }
 
-  </style>
+@keyframes fade{
+from{opacity:0;transform:translateY(30px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+.avatar{
+width:140px;
+height:140px;
+border-radius:50%;
+object-fit:cover;
+border:4px solid white;
+box-shadow:0 0 30px #00d4ff;
+}
+
+h1{
+margin-top:20px;
+color:white;
+font-size:32px;
+font-weight:700;
+}
+
+.role{
+color:#d7d7d7;
+margin-top:8px;
+font-size:15px;
+}
+
+.phone{
+margin-top:18px;
+color:#ffffff;
+font-size:18px;
+font-weight:600;
+}
+
+.line{
+width:80px;
+height:4px;
+margin:22px auto;
+background:#00d4ff;
+border-radius:30px;
+}
+
+a{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+text-decoration:none;
+padding:15px;
+margin:14px 0;
+border-radius:14px;
+font-size:17px;
+font-weight:600;
+transition:.3s;
+color:white;
+}
+
+.facebook{
+background:#1877F2;
+}
+
+.zalo{
+background:#0068FF;
+}
+
+.tiktok{
+background:#111111;
+border:1px solid white;
+}
+
+a:hover{
+transform:translateY(-4px) scale(1.03);
+box-shadow:0 12px 25px rgba(0,0,0,.4);
+}
+
+.footer{
+margin-top:22px;
+font-size:13px;
+color:#ddd;
+}
+
+.glow{
+position:absolute;
+width:120px;
+height:120px;
+border-radius:50%;
+background:#00d4ff;
+filter:blur(90px);
+opacity:.25;
+animation:move 8s infinite alternate;
+}
+
+@keyframes move{
+from{
+transform:translate(-150px,-80px);
+}
+to{
+transform:translate(150px,100px);
+}
+}
+</style>
 </head>
+
 <body>
-  <div class="wrap">
-    <header class="nav">
-      <div class="brand">
-        <div class="brand-badge">G</div>
-        <div class="brand-text">
-          <strong>Lê Quốc Anh (Gem)</strong>
-          <span>File cài Win • Dịch vụ online</span>
-        </div>
-      </div>
-      <nav class="links">
-        <a href="#home">Trang chủ</a>
-        <a href="#files">File tải</a>
-        <a href="#services">Dịch vụ</a>
-        <a href="#contact">Liên hệ</a>
-      </nav>
-    </header><section class="hero" id="home">
-  <div class="panel hero-left">
-    <div class="eyebrow">⚡ Website tổng hợp file cài Win chuyên nghiệp</div>
-    <h1>Kho <span class="gradient">file tải xuống</span> & dịch vụ cài Win online</h1>
-    <p class="lead">
-      Giao diện hiện đại, tối ưu cho máy tính và điện thoại. Người dùng bấm vào nút tải, nhập đúng mật khẩu mới mở file.
-    </p>
-    <div class="hero-actions">
-      <a class="btn primary" href="#files">Xem danh sách file</a>
-      <a class="btn" href="#contact">Liên hệ ngay</a>
-    </div>
-  </div>
 
-  <div class="panel hero-right">
-    <div class="profile">
-      <div class="avatar" title="Ảnh chủ trang web">
-        <!-- Thay avatar.jpg bằng ảnh thật của bạn nếu có -->
-        <img src="avatar.jpg" alt="Lê Quốc Anh (Gem)" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
-        <div class="placeholder" style="display:none;">LQ</div>
-      </div>
-      <h2>Lê Quốc Anh</h2>
-      <p><strong>Gem</strong> • Hỗ trợ cài Win online • Tư vấn phần mềm</p>
-      <div class="badges">
-        <div class="badge">Uy tín</div>
-        <div class="badge">Nhanh gọn</div>
-        <div class="badge">Hỗ trợ online</div>
-      </div>
-    </div>
-  </div>
-</section>
+<div class="glow"></div>
 
-<section class="grid">
-  <div class="section-title" id="files">
-    <h3>Danh sách file tải xuống</h3>
-    <span>Mật khẩu chỉ hiện khi bấm nút tải</span>
-  </div>
+<div class="card">
 
-  <div class="card full">
-    <h4>File tổng hợp cài Win</h4>
-    <p>Ấn vào nút tải dưới đây, nhập đúng mật khẩu để mở file.</p>
+<img src="avatar.jpg" class="avatar">
 
-    <div class="files">
-      <div class="file-item">
-        <div>
-          <div class="file-name">File Win ISO 5</div>
-          <div class="file-meta">Windows ISO số 5</div>
-        </div>
-        <button class="download" data-url="https://example.com/win-iso-5.iso">Tải xuống</button>
-      </div>
+<h1>Lê Quốc Anh (Gem)</h1>
 
-      <div class="file-item">
-        <div>
-          <div class="file-name">WinNT Setup</div>
-          <div class="file-meta">Cài Win từ ổ cứng</div>
-        </div>
-        <button class="download" data-url="https://example.com/winnt-setup.exe">Tải xuống</button>
-      </div>
+<div class="role">
+Welcome to my personal page
+</div>
 
-      <div class="file-item">
-        <div>
-          <div class="file-name">MiniTool</div>
-          <div class="file-meta">Quản lý phân vùng</div>
-        </div>
-        <button class="download" data-url="https://example.com/minitool.exe">Tải xuống</button>
-      </div>
+<div class="phone">
+📞 0896387698
+</div>
 
-      <div class="file-item">
-        <div>
-          <div class="file-name">Defender Control</div>
-          <div class="file-meta">Bật / tắt Defender</div>
-        </div>
-        <button class="download" data-url="https://example.com/defender-control.exe">Tải xuống</button>
-      </div>
+<div class="line"></div>
 
-      <div class="file-item" style="grid-column:1/-1">
-        <div>
-          <div class="file-name">Full C++ Runtime</div>
-          <div class="file-meta">Visual C++ đầy đủ</div>
-        </div>
-        <button class="download" data-url="https://example.com/vc-redist-full.exe">Tải xuống</button>
-      </div>
-    </div>
-  </div>
+<a class="zalo" href="https://zalo.me/0896387698" target="_blank">
+💙 Zalo
+</a>
 
-  <div class="card" id="services">
-    <h4>Dịch vụ cài Win online</h4>
-    <p>Hỗ trợ từ xa, hướng dẫn từng bước, và tư vấn setup máy tính sau cài đặt.</p>
-    <div class="services">
-      <div class="service"><strong>Cài Win từ xa</strong>Hỗ trợ cài đặt Windows online.</div>
-      <div class="service"><strong>Fix lỗi máy tính</strong>Hỗ trợ lỗi driver, phần mềm, khởi động.</div>
-      <div class="service"><strong>Setup phần mềm</strong>Gợi ý bộ công cụ cần thiết sau khi cài Win.</div>
-    </div>
-  </div>
+<a class="facebook" href="https://www.facebook.com/quoc.anh.le.352367/" target="_blank">
+📘 Facebook
+</a>
 
-  <div class="card" id="contact">
-    <h4>Liên hệ</h4>
-    <p>Thông tin chủ trang web và số điện thoại.</p>
-    <div class="contact">
-      <div class="pill">👤 Lê Quốc Anh (Gem)</div>
-      <div class="pill">📞 0896387698</div>
-      <div class="pill">🌐 Dịch vụ cài Win online</div>
-    </div>
-  </div>
-</section>
+<a class="tiktok" href="https://www.tiktok.com/@gem2010_0410" target="_blank">
+🎵 TikTok
+</a>
 
-<div class="footer">© 2026 Lê Quốc Anh (Gem)</div>
+<div class="footer">
+© 2026 • Designed by Gem
+</div>
 
-  </div>  <div class="modal-backdrop" id="modal">
-    <div class="modal">
-      <h3>Nhập mật khẩu để tải file</h3>
-      <p>Chỉ cần nhập đúng mật khẩu để mở liên kết tải xuống của file vừa chọn.</p>
-      <div class="input-row">
-        <input id="passInput" type="password" placeholder="Nhập mật khẩu..." autocomplete="off" />
-        <button class="btn primary" id="unlockBtn">Xác nhận</button>
-      </div>
-      <div class="err" id="errMsg"></div>
-    </div>
-  </div>  <script>
-    const PASSWORD = "Lequocanh2010@";
-    const modal = document.getElementById('modal');
-    const passInput = document.getElementById('passInput');
-    const errMsg = document.getElementById('errMsg');
-    const unlockBtn = document.getElementById('unlockBtn');
-    const downloads = document.querySelectorAll('.download');
-    let selectedUrl = "";
+</div>
 
-    function openModal(url){
-      selectedUrl = url;
-      errMsg.textContent = '';
-      passInput.value = '';
-      modal.classList.add('show');
-      setTimeout(() => passInput.focus(), 50);
-    }
-
-    function closeModal(){
-      modal.classList.remove('show');
-    }
-
-    function unlock(){
-      const value = passInput.value.trim();
-      if(value === PASSWORD){
-        closeModal();
-        if(selectedUrl) window.open(selectedUrl, '_blank');
-      } else {
-        errMsg.textContent = 'Sai mật khẩu. Vui lòng nhập lại.';
-      }
-    }
-
-    downloads.forEach(btn => {
-      btn.addEventListener('click', () => openModal(btn.dataset.url));
-    });
-
-    unlockBtn.addEventListener('click', unlock);
-    passInput.addEventListener('keydown', (e) => {
-      if(e.key === 'Enter') unlock();
-      if(e.key === 'Escape') closeModal();
-    });
-
-    modal.addEventListener('click', (e) => {
-      if(e.target === modal) closeModal();
-    });
-  </script></body>
+</body>
 </html>
