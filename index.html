@@ -11,6 +11,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
     <style>
         /* ===== RESET ===== */
@@ -41,6 +43,71 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
+            transition: background 0.5s ease, color 0.5s ease;
+        }
+
+        body.light-mode {
+            background: #f0f2f5;
+            color: #1a1a1a;
+        }
+        body.light-mode .card {
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(24px) saturate(1.6);
+            border-color: rgba(0,0,0,0.08);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.15);
+        }
+        body.light-mode .card::before {
+            background: linear-gradient(135deg, rgba(0,212,255,0.3), rgba(123,47,252,0.2), transparent 60%);
+        }
+        body.light-mode .brand { color: rgba(0,0,0,0.3); }
+        body.light-mode .name {
+            background: linear-gradient(135deg, #1a1a1a 60%, rgba(0,0,0,0.5));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        body.light-mode .sub { color: rgba(0,0,0,0.4); }
+        body.light-mode .tagline { color: rgba(0,0,0,0.5); }
+        body.light-mode .tagline span { color: #1a1a1a; }
+        body.light-mode .phone-row {
+            background: rgba(0,0,0,0.04);
+            border-color: rgba(0,0,0,0.06);
+            color: rgba(0,0,0,0.6);
+        }
+        body.light-mode .phone-row:hover {
+            border-color: rgba(0,212,255,0.3);
+            background: rgba(0,0,0,0.06);
+        }
+        body.light-mode .social-link {
+            background: rgba(0,0,0,0.03);
+            border-color: rgba(0,0,0,0.06);
+            color: #1a1a1a;
+        }
+        body.light-mode .social-link:hover {
+            border-color: rgba(0,0,0,0.15);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+        }
+        body.light-mode .social-link::before {
+            background: linear-gradient(135deg, rgba(0,0,0,0.04), transparent 60%);
+        }
+        body.light-mode .footer { color: rgba(0,0,0,0.2); border-color: rgba(0,0,0,0.04); }
+        body.light-mode .footer span { color: rgba(0,0,0,0.3); }
+        body.light-mode .badge {
+            background: rgba(0,212,255,0.12);
+            border-color: rgba(0,212,255,0.2);
+        }
+        body.light-mode .divider {
+            background: linear-gradient(90deg, transparent, rgba(0,212,255,0.5), transparent);
+        }
+        body.light-mode ::-webkit-scrollbar-track { background: #f0f2f5; }
+        body.light-mode .counter-box {
+            background: rgba(0,0,0,0.04);
+            border-color: rgba(0,0,0,0.06);
+            color: rgba(0,0,0,0.6);
+        }
+        body.light-mode .time-location {
+            background: rgba(0,0,0,0.04);
+            border-color: rgba(0,0,0,0.06);
+            color: rgba(0,0,0,0.6);
         }
 
         /* ===== LOADING SCREEN ===== */
@@ -105,11 +172,55 @@
             transition: left 0.1s ease-out, top 0.1s ease-out;
         }
 
+        /* ===== TOP TOOLBAR ===== */
+        .top-toolbar {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 100;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        .tool-btn {
+            padding: 10px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(12px);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Inter', sans-serif;
+        }
+        .tool-btn:hover {
+            background: rgba(255,255,255,0.12);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        body.light-mode .tool-btn {
+            background: rgba(0,0,0,0.05);
+            border-color: rgba(0,0,0,0.08);
+            color: #1a1a1a;
+        }
+        body.light-mode .tool-btn:hover {
+            background: rgba(0,0,0,0.1);
+        }
+        .tool-btn .flag {
+            font-size: 18px;
+        }
+
         /* ===== MAIN CARD ===== */
         .card {
             position: relative;
             z-index: 2;
-            max-width: 440px;
+            max-width: 480px;
             width: 100%;
             background: rgba(255,255,255,0.04);
             backdrop-filter: blur(24px) saturate(1.4);
@@ -122,6 +233,7 @@
             opacity: 0;
             transform: translateY(40px) scale(0.96);
             animation: cardIn 0.9s cubic-bezier(0.23, 1, 0.32, 1) 0.3s forwards;
+            transition: background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
         }
         @keyframes cardIn {
             to {
@@ -152,6 +264,7 @@
             color: rgba(255,255,255,0.3);
             margin-bottom: 18px;
             font-weight: 600;
+            transition: color 0.5s ease;
         }
         .brand span {
             background: linear-gradient(135deg, #00d4ff, #7b2ffc);
@@ -198,6 +311,8 @@
             background: linear-gradient(135deg, #fff 60%, rgba(255,255,255,0.6));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            min-height: 40px;
+            transition: background 0.5s ease;
         }
         .sub {
             font-size: 14px;
@@ -205,6 +320,7 @@
             color: rgba(255,255,255,0.5);
             margin-top: 4px;
             letter-spacing: 0.3px;
+            transition: color 0.5s ease;
         }
         .sub strong {
             color: #00d4ff;
@@ -218,10 +334,12 @@
             font-weight: 400;
             color: rgba(255,255,255,0.6);
             line-height: 1.6;
+            transition: color 0.5s ease;
         }
         .tagline span {
             color: #fff;
             font-weight: 600;
+            transition: color 0.5s ease;
         }
 
         /* ===== DIVIDER ===== */
@@ -231,6 +349,58 @@
             margin: 20px auto 22px;
             background: linear-gradient(90deg, transparent, rgba(0,212,255,0.4), transparent);
             border-radius: 4px;
+            transition: background 0.5s ease;
+        }
+
+        /* ===== COUNTER ===== */
+        .counter-box {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 12px 0 16px;
+            padding: 12px 20px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            transition: all 0.5s ease;
+        }
+        .counter-item {
+            text-align: center;
+        }
+        .counter-item .number {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00d4ff, #7b2ffc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .counter-item .label {
+            font-size: 11px;
+            color: rgba(255,255,255,0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 2px;
+            transition: color 0.5s ease;
+        }
+
+        /* ===== TIME/LOCATION ===== */
+        .time-location {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin: 10px 0 14px;
+            padding: 10px 20px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+            transition: all 0.5s ease;
+        }
+        .time-location i {
+            margin-right: 6px;
+            color: #00d4ff;
         }
 
         /* ===== SOCIAL LINKS ===== */
@@ -319,9 +489,11 @@
             letter-spacing: 0.5px;
             border-top: 1px solid rgba(255,255,255,0.04);
             padding-top: 20px;
+            transition: all 0.5s ease;
         }
         .footer span {
             color: rgba(255,255,255,0.3);
+            transition: color 0.5s ease;
         }
 
         /* ===== RESPONSIVE ===== */
@@ -330,13 +502,18 @@
             .name { font-size: 24px; }
             .social-link { padding: 14px 18px; font-size: 14px; }
             .social-link .icon { width: 28px; height: 28px; font-size: 16px; }
+            .top-toolbar { top: 10px; right: 10px; gap: 6px; }
+            .tool-btn { padding: 8px 12px; font-size: 12px; }
+            .counter-box { gap: 16px; padding: 10px 14px; }
+            .counter-item .number { font-size: 18px; }
+            .time-location { font-size: 12px; gap: 10px; padding: 8px 14px; }
         }
         @media (max-width: 360px) {
             .avatar-wrap { width: 100px; height: 100px; }
             .card { border-radius: 24px; }
         }
 
-        /* ===== SCROLL ANIMATION (Intersection Observer) ===== */
+        /* ===== SCROLL ANIMATION ===== */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -347,7 +524,7 @@
             transform: translateY(0);
         }
 
-        /* ===== BADGE RIBBON ===== */
+        /* ===== BADGE ===== */
         .badge {
             display: inline-block;
             padding: 4px 16px;
@@ -360,6 +537,7 @@
             border: 1px solid rgba(0,212,255,0.15);
             color: #00d4ff;
             margin-top: 6px;
+            transition: all 0.5s ease;
         }
 
         /* ===== PHONE ===== */
@@ -375,11 +553,110 @@
             font-weight: 500;
             color: rgba(255,255,255,0.6);
             margin: 6px 0 4px;
-            transition: 0.3s;
+            transition: all 0.3s ease;
         }
         .phone-row:hover {
             border-color: rgba(0,212,255,0.2);
             background: rgba(255,255,255,0.06);
+        }
+
+        /* ===== FLOATING ACTION BUTTON ===== */
+        .fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 99;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00d4ff, #7b2ffc);
+            border: none;
+            color: #fff;
+            font-size: 26px;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(0,212,255,0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+        .fab:hover {
+            transform: scale(1.1) translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,212,255,0.6);
+        }
+        .fab:active {
+            transform: scale(0.95);
+        }
+        .fab .tooltip {
+            position: absolute;
+            right: 70px;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            color: #fff;
+            font-weight: 500;
+        }
+        .fab:hover .tooltip {
+            opacity: 1;
+        }
+
+        /* ===== AUDIO PLAYER ===== */
+        .audio-player {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            z-index: 98;
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 30px;
+            padding: 8px 16px 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+        .audio-player:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.15);
+        }
+        .audio-player button {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 4px 6px;
+            transition: 0.3s;
+        }
+        .audio-player button:hover {
+            transform: scale(1.15);
+            color: #00d4ff;
+        }
+        .audio-player input[type="range"] {
+            width: 60px;
+            accent-color: #00d4ff;
+            background: transparent;
+            cursor: pointer;
+        }
+        body.light-mode .audio-player {
+            background: rgba(0,0,0,0.05);
+            border-color: rgba(0,0,0,0.08);
+        }
+        body.light-mode .audio-player button {
+            color: #1a1a1a;
+        }
+        @media (max-width: 480px) {
+            .fab { width: 50px; height: 50px; font-size: 22px; bottom: 20px; right: 20px; }
+            .audio-player { bottom: 80px; right: 20px; padding: 6px 12px 6px 8px; }
+            .audio-player input[type="range"] { width: 40px; }
         }
     </style>
 </head>
@@ -388,7 +665,7 @@
     <!-- ===== LOADER ===== -->
     <div id="loader" role="status" aria-label="Loading">
         <div class="loader-ring"></div>
-        <div class="loader-text">ĐANG TẢI</div>
+        <div class="loader-text" data-en="LOADING" data-vi="ĐANG TẢI">ĐANG TẢI</div>
     </div>
 
     <!-- ===== BACKGROUND ===== -->
@@ -397,26 +674,68 @@
     <!-- ===== CURSOR GLOW ===== -->
     <div id="cursor-glow"></div>
 
+    <!-- ===== TOP TOOLBAR ===== -->
+    <div class="top-toolbar">
+        <button class="tool-btn" id="langToggle" title="Toggle Language">
+            <span class="flag">🇻🇳</span>
+            <span id="langLabel">VI</span>
+        </button>
+        <button class="tool-btn" id="themeToggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <!-- ===== FLOATING ACTION BUTTON ===== -->
+    <a href="tel:0896387698" class="fab" id="fabBtn">
+        <i class="fas fa-phone-alt"></i>
+        <span class="tooltip" data-en="Contact Now" data-vi="Liên hệ ngay">Liên hệ ngay</span>
+    </a>
+
+    <!-- ===== AUDIO PLAYER ===== -->
+    <div class="audio-player" id="audioPlayer">
+        <button id="playBtn"><i class="fas fa-play"></i></button>
+        <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="0.5">
+        <button id="muteBtn"><i class="fas fa-volume-up"></i></button>
+    </div>
+
     <!-- ===== MAIN CARD ===== -->
     <main class="card" role="main" aria-label="Profile card">
 
-        <div class="brand"><span>✦</span> GEM PORTFOLIO</div>
+        <div class="brand"><span>✦</span> <span data-en="GEM PORTFOLIO" data-vi="GEM PORTFOLIO">GEM PORTFOLIO</span></div>
 
         <div class="avatar-wrap reveal">
             <img src="avatar.jpg" alt="Lê Quốc Anh - Gem avatar" loading="eager">
         </div>
 
-        <h1 class="name reveal">Lê Quốc Anh</h1>
-        <div class="sub reveal">@ <strong>Gem</strong> · Creator</div>
+        <h1 class="name reveal" id="typingText">Lê Quốc Anh</h1>
+        <div class="sub reveal">@ <strong>Gem</strong> · <span data-en="Creator" data-vi="Creator">Creator</span></div>
 
-        <div class="badge reveal">✦ Premium Bio</div>
+        <div class="badge reveal">✦ <span data-en="Premium Bio" data-vi="Premium Bio">Premium Bio</span></div>
 
         <div class="tagline reveal">
-            🔥 Chào thằng em đã đến web của <span>anh ba</span> 🔥
+            🔥 <span data-en="Welcome to my website" data-vi="Chào thằng em đã đến web của">Chào thằng em đã đến web của</span> <span>anh ba</span> 🔥
         </div>
 
         <div class="phone-row reveal">
             <span>📞</span> 0896 387 698
+        </div>
+
+        <!-- ===== COUNTER ===== -->
+        <div class="counter-box reveal">
+            <div class="counter-item">
+                <div class="number" id="visitCount">0</div>
+                <div class="label" data-en="Visits" data-vi="Lượt truy cập">Lượt truy cập</div>
+            </div>
+            <div class="counter-item">
+                <div class="number" id="onlineCount">0</div>
+                <div class="label" data-en="Online" data-vi="Đang online">Đang online</div>
+            </div>
+        </div>
+
+        <!-- ===== TIME & LOCATION ===== -->
+        <div class="time-location reveal">
+            <span><i class="fas fa-clock"></i> <span id="currentTime">--:--:--</span></span>
+            <span><i class="fas fa-map-marker-alt"></i> <span id="userLocation">Đang xác định...</span></span>
         </div>
 
         <div class="divider reveal"></div>
@@ -440,19 +759,23 @@
         </div>
 
         <div class="footer reveal">
-            © 2026 · Designed by <span>Lê Quốc Anh (Gem)</span>
+            © 2026 · <span data-en="Designed by" data-vi="Designed by">Designed by</span> <span>Lê Quốc Anh (Gem)</span>
         </div>
     </main>
 
     <script>
-        // ===== LOADER =====
+        // ============================================================
+        // 1. LOADER
+        // ============================================================
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('loader').classList.add('hidden');
             }, 600);
         });
 
-        // ===== PARTICLE BACKGROUND =====
+        // ============================================================
+        // 2. PARTICLE BACKGROUND
+        // ============================================================
         (function initParticles() {
             const canvas = document.getElementById('bg-canvas');
             const ctx = canvas.getContext('2d');
@@ -488,7 +811,6 @@
                     if (p.x < 0 || p.x > w) p.dx *= -1;
                     if (p.y < 0 || p.y > h) p.dy *= -1;
                 }
-                // Draw connections
                 for (let i = 0; i < particles.length; i++) {
                     for (let j = i + 1; j < particles.length; j++) {
                         const dx = particles[i].x - particles[j].x;
@@ -509,11 +831,12 @@
             draw();
         })();
 
-        // ===== CURSOR GLOW =====
+        // ============================================================
+        // 3. CURSOR GLOW
+        // ============================================================
         (function cursorGlow() {
             const glow = document.getElementById('cursor-glow');
-            let x = -200,
-                y = -200;
+            let x = -200, y = -200;
             document.addEventListener('mousemove', (e) => {
                 x = e.clientX;
                 y = e.clientY;
@@ -522,7 +845,9 @@
             });
         })();
 
-        // ===== INTERSECTION OBSERVER (Reveal) =====
+        // ============================================================
+        // 4. INTERSECTION OBSERVER (Reveal)
+        // ============================================================
         (function revealOnScroll() {
             const els = document.querySelectorAll('.reveal');
             const obs = new IntersectionObserver((entries) => {
@@ -536,7 +861,6 @@
                 rootMargin: '0px 0px -30px 0px'
             });
             els.forEach(el => obs.observe(el));
-            // Also trigger after load for items already visible
             setTimeout(() => {
                 els.forEach(el => {
                     const rect = el.getBoundingClientRect();
@@ -546,6 +870,226 @@
                 });
             }, 400);
         })();
+
+        // ============================================================
+        // 5. TYPING EFFECT
+        // ============================================================
+        (function typingEffect() {
+            const el = document.getElementById('typingText');
+            const fullText = "Lê Quốc Anh";
+            let idx = 0;
+            el.textContent = '';
+            function type() {
+                if (idx < fullText.length) {
+                    el.textContent += fullText.charAt(idx);
+                    idx++;
+                    setTimeout(type, 120);
+                }
+            }
+            setTimeout(type, 1000);
+        })();
+
+        // ============================================================
+        // 6. DARK/LIGHT MODE TOGGLE
+        // ============================================================
+        (function themeToggle() {
+            const btn = document.getElementById('themeToggle');
+            const icon = btn.querySelector('i');
+            let isDark = true;
+
+            btn.addEventListener('click', () => {
+                isDark = !isDark;
+                document.body.classList.toggle('light-mode', !isDark);
+                icon.className = isDark ? 'fas fa-moon' : 'fas fa-sun';
+                // Update scrollbar
+                document.querySelector('::-webkit-scrollbar-track').style.background = isDark ? '#0a0a0a' : '#f0f2f5';
+            });
+        })();
+
+        // ============================================================
+        // 7. LANGUAGE TOGGLE (EN/VN)
+        // ============================================================
+        (function langToggle() {
+            const btn = document.getElementById('langToggle');
+            const flag = btn.querySelector('.flag');
+            const label = document.getElementById('langLabel');
+            let isVI = true;
+
+            function updateLanguage(lang) {
+                document.querySelectorAll('[data-en][data-vi]').forEach(el => {
+                    el.textContent = lang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-vi');
+                });
+                // Update tooltip
+                const tooltip = document.querySelector('.fab .tooltip');
+                if (tooltip) {
+                    tooltip.textContent = lang === 'en' ? tooltip.getAttribute('data-en') : tooltip.getAttribute('data-vi');
+                }
+                // Update loader text
+                const loaderText = document.querySelector('.loader-text');
+                if (loaderText) {
+                    loaderText.textContent = lang === 'en' ? loaderText.getAttribute('data-en') : loaderText.getAttribute('data-vi');
+                }
+            }
+
+            btn.addEventListener('click', () => {
+                isVI = !isVI;
+                flag.textContent = isVI ? '🇻🇳' : '🇬🇧';
+                label.textContent = isVI ? 'VI' : 'EN';
+                updateLanguage(isVI ? 'vi' : 'en');
+            });
+        })();
+
+        // ============================================================
+        // 8. COUNTER (Visits + Online)
+        // ============================================================
+        (function counter() {
+            // Simple mock counter - in real use, you'd use a backend or localStorage
+            let visits = parseInt(localStorage.getItem('gemVisits') || '0');
+            visits++;
+            localStorage.setItem('gemVisits', visits);
+            document.getElementById('visitCount').textContent = visits;
+
+            // Online count (simulated)
+            let online = Math.floor(Math.random() * 15) + 3;
+            document.getElementById('onlineCount').textContent = online;
+
+            // Update online count every 30s
+            setInterval(() => {
+                online = Math.floor(Math.random() * 15) + 3;
+                document.getElementById('onlineCount').textContent = online;
+            }, 30000);
+        })();
+
+        // ============================================================
+        // 9. TIME & LOCATION
+        // ============================================================
+        (function timeLocation() {
+            const timeEl = document.getElementById('currentTime');
+            const locEl = document.getElementById('userLocation');
+
+            function updateTime() {
+                const now = new Date();
+                timeEl.textContent = now.toLocaleTimeString('vi-VN', { hour12: false });
+            }
+            updateTime();
+            setInterval(updateTime, 1000);
+
+            // Get location from IP API
+            fetch('https://ipapi.co/json/')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.city && data.country_name) {
+                        locEl.textContent = `${data.city}, ${data.country_name}`;
+                    } else {
+                        locEl.textContent = 'Việt Nam';
+                    }
+                })
+                .catch(() => {
+                    locEl.textContent = 'Việt Nam';
+                });
+        })();
+
+        // ============================================================
+        // 10. AUDIO PLAYER (Background music)
+        // ============================================================
+        (function audioPlayer() {
+            const playBtn = document.getElementById('playBtn');
+            const volumeSlider = document.getElementById('volumeSlider');
+            const muteBtn = document.getElementById('muteBtn');
+            let audio = null;
+            let isPlaying = false;
+            let isMuted = false;
+
+            // Create audio context and oscillator (simple beep/bgm)
+            // For real music, you'd use an <audio> element with a file URL
+            // This is a simple synth tone as placeholder
+            let audioCtx = null;
+            let oscillator = null;
+            let gainNode = null;
+
+            function initAudio() {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    gainNode = audioCtx.createGain();
+                    gainNode.gain.value = volumeSlider.value * 0.3;
+                    gainNode.connect(audioCtx.destination);
+                }
+            }
+
+            function playTone() {
+                initAudio();
+                if (oscillator) {
+                    oscillator.stop();
+                    oscillator.disconnect();
+                }
+                oscillator = audioCtx.createOscillator();
+                oscillator.type = 'sine';
+                oscillator.frequency.value = 220;
+                oscillator.connect(gainNode);
+                oscillator.start();
+                // Auto stop after 2s to create a loop effect
+                setTimeout(() => {
+                    if (oscillator && isPlaying) {
+                        oscillator.stop();
+                        oscillator.disconnect();
+                        oscillator = null;
+                        // Restart after short pause
+                        setTimeout(playTone, 500);
+                    }
+                }, 2000);
+            }
+
+            playBtn.addEventListener('click', () => {
+                initAudio();
+                if (isPlaying) {
+                    isPlaying = false;
+                    if (oscillator) {
+                        oscillator.stop();
+                        oscillator.disconnect();
+                        oscillator = null;
+                    }
+                    playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                } else {
+                    isPlaying = true;
+                    playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                    playTone();
+                }
+            });
+
+            volumeSlider.addEventListener('input', () => {
+                if (gainNode) {
+                    gainNode.gain.value = volumeSlider.value * 0.3;
+                }
+                if (isMuted) {
+                    isMuted = false;
+                    muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+                }
+            });
+
+            muteBtn.addEventListener('click', () => {
+                isMuted = !isMuted;
+                if (gainNode) {
+                    gainNode.gain.value = isMuted ? 0 : volumeSlider.value * 0.3;
+                }
+                muteBtn.innerHTML = isMuted ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
+            });
+
+            // Autoplay attempt (user interaction required for most browsers)
+            document.addEventListener('click', () => {
+                initAudio();
+                if (!isPlaying) {
+                    // Try autoplay on first click
+                }
+            }, { once: true });
+        })();
+
+        // ============================================================
+        // 11. FLOATING ACTION BUTTON
+        // ============================================================
+        // Already in HTML with href="tel:..."
+
+        console.log('🚀 NEUTRONNNN KILLER đã nâng cấp web cho CHUMT KA GULAM! 😈🔥');
+        console.log('🔥 7 tính năng đã thêm: Đa ngôn ngữ, Dark/Light, Counter, Nhạc nền, Time/Location, Typing, FAB');
     </script>
 
 </body>
