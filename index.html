@@ -1,1096 +1,845 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lê Quốc Anh (Gem) | Premium Portfolio</title>
-    
-    <!-- SEO Meta -->
-    <meta name="description" content="Lê Quốc Anh (Gem) - Trang giới thiệu cá nhân chuyên nghiệp. Kết nối với Gem qua Zalo, Facebook, TikTok.">
-    <meta name="theme-color" content="#0a0a0a">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    
-    <style>
-        /* ===== RESET ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0a0a0a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #00d4ff, #7b2ffc);
-            border-radius: 10px;
-        }
+<meta charset="UTF-8">
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #0a0a0a;
-            color: #fff;
-            overflow-x: hidden;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            transition: background 0.5s ease, color 0.5s ease;
-        }
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-        body.light-mode {
-            background: #f0f2f5;
-            color: #1a1a1a;
-        }
-        body.light-mode .card {
-            background: rgba(255,255,255,0.7);
-            backdrop-filter: blur(24px) saturate(1.6);
-            border-color: rgba(0,0,0,0.08);
-            box-shadow: 0 30px 80px rgba(0,0,0,0.15);
-        }
-        body.light-mode .card::before {
-            background: linear-gradient(135deg, rgba(0,212,255,0.3), rgba(123,47,252,0.2), transparent 60%);
-        }
-        body.light-mode .brand { color: rgba(0,0,0,0.3); }
-        body.light-mode .name {
-            background: linear-gradient(135deg, #1a1a1a 60%, rgba(0,0,0,0.5));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        body.light-mode .sub { color: rgba(0,0,0,0.4); }
-        body.light-mode .tagline { color: rgba(0,0,0,0.5); }
-        body.light-mode .tagline span { color: #1a1a1a; }
-        body.light-mode .phone-row {
-            background: rgba(0,0,0,0.04);
-            border-color: rgba(0,0,0,0.06);
-            color: rgba(0,0,0,0.6);
-        }
-        body.light-mode .phone-row:hover {
-            border-color: rgba(0,212,255,0.3);
-            background: rgba(0,0,0,0.06);
-        }
-        body.light-mode .social-link {
-            background: rgba(0,0,0,0.03);
-            border-color: rgba(0,0,0,0.06);
-            color: #1a1a1a;
-        }
-        body.light-mode .social-link:hover {
-            border-color: rgba(0,0,0,0.15);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
-        }
-        body.light-mode .social-link::before {
-            background: linear-gradient(135deg, rgba(0,0,0,0.04), transparent 60%);
-        }
-        body.light-mode .footer { color: rgba(0,0,0,0.2); border-color: rgba(0,0,0,0.04); }
-        body.light-mode .footer span { color: rgba(0,0,0,0.3); }
-        body.light-mode .badge {
-            background: rgba(0,212,255,0.12);
-            border-color: rgba(0,212,255,0.2);
-        }
-        body.light-mode .divider {
-            background: linear-gradient(90deg, transparent, rgba(0,212,255,0.5), transparent);
-        }
-        body.light-mode ::-webkit-scrollbar-track { background: #f0f2f5; }
-        body.light-mode .counter-box {
-            background: rgba(0,0,0,0.04);
-            border-color: rgba(0,0,0,0.06);
-            color: rgba(0,0,0,0.6);
-        }
-        body.light-mode .time-location {
-            background: rgba(0,0,0,0.04);
-            border-color: rgba(0,0,0,0.06);
-            color: rgba(0,0,0,0.6);
-        }
+<title>Lê Quốc Anh (Gem) | GEM STUDIO</title>
 
-        /* ===== LOADING SCREEN ===== */
-        #loader {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background: #0a0a0a;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
-        }
-        #loader.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-        .loader-ring {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            border: 3px solid transparent;
-            border-top: 3px solid #00d4ff;
-            border-right: 3px solid #7b2ffc;
-            animation: spin 0.8s linear infinite;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        .loader-text {
-            margin-top: 20px;
-            font-size: 14px;
-            letter-spacing: 3px;
-            color: rgba(255,255,255,0.4);
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 1; }
-        }
+<link rel="preconnect" href="https://fonts.googleapis.com">
 
-        /* ===== ANIMATED BACKGROUND ===== */
-        #bg-canvas {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-        }
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-        /* ===== GLOW CURSOR ===== */
-        #cursor-glow {
-            position: fixed;
-            width: 400px;
-            height: 400px;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 1;
-            background: radial-gradient(circle, rgba(0,212,255,0.12), rgba(123,47,252,0.06), transparent 70%);
-            filter: blur(40px);
-            transform: translate(-50%, -50%);
-            transition: left 0.1s ease-out, top 0.1s ease-out;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-        /* ===== TOP TOOLBAR ===== */
-        .top-toolbar {
-            position: fixed;
-            top: 16px;
-            right: 16px;
-            z-index: 100;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: flex-end;
-        }
-        .tool-btn {
-            padding: 10px 16px;
-            border-radius: 30px;
-            border: 1px solid rgba(255,255,255,0.12);
-            background: rgba(255,255,255,0.06);
-            backdrop-filter: blur(12px);
-            color: #fff;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-family: 'Inter', sans-serif;
-        }
-        .tool-btn:hover {
-            background: rgba(255,255,255,0.12);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-        }
-        body.light-mode .tool-btn {
-            background: rgba(0,0,0,0.05);
-            border-color: rgba(0,0,0,0.08);
-            color: #1a1a1a;
-        }
-        body.light-mode .tool-btn:hover {
-            background: rgba(0,0,0,0.1);
-        }
-        .tool-btn .flag {
-            font-size: 18px;
-        }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-        /* ===== MAIN CARD ===== */
-        .card {
-            position: relative;
-            z-index: 2;
-            max-width: 480px;
-            width: 100%;
-            background: rgba(255,255,255,0.04);
-            backdrop-filter: blur(24px) saturate(1.4);
-            -webkit-backdrop-filter: blur(24px) saturate(1.4);
-            border-radius: 32px;
-            padding: 40px 30px 35px;
-            border: 1px solid rgba(255,255,255,0.08);
-            box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04) inset;
-            text-align: center;
-            opacity: 0;
-            transform: translateY(40px) scale(0.96);
-            animation: cardIn 0.9s cubic-bezier(0.23, 1, 0.32, 1) 0.3s forwards;
-            transition: background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
-        }
-        @keyframes cardIn {
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
+<style>
 
-        .card::before {
-            content: '';
-            position: absolute;
-            inset: -1px;
-            border-radius: 32px;
-            padding: 1px;
-            background: linear-gradient(135deg, rgba(0,212,255,0.2), rgba(123,47,252,0.2), transparent 60%);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            pointer-events: none;
-        }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Poppins",sans-serif;
+scroll-behavior:smooth;
+}
 
-        /* ===== HEADER ===== */
-        .brand {
-            font-size: 13px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.3);
-            margin-bottom: 18px;
-            font-weight: 600;
-            transition: color 0.5s ease;
-        }
-        .brand span {
-            background: linear-gradient(135deg, #00d4ff, #7b2ffc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+:root{
 
-        /* ===== AVATAR ===== */
-        .avatar-wrap {
-            position: relative;
-            width: 130px;
-            height: 130px;
-            margin: 0 auto 18px;
-        }
-        .avatar-wrap::before {
-            content: '';
-            position: absolute;
-            inset: -4px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #00d4ff, #7b2ffc, #00d4ff);
-            background-size: 300% 300%;
-            animation: gradSpin 4s linear infinite;
-            z-index: -1;
-        }
-        @keyframes gradSpin {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        .avatar-wrap img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #0a0a0a;
-            background: #1a1a1a;
-        }
+--bg:#050811;
+--bg2:#0b1327;
+--main:#00d4ff;
+--main2:#008cff;
+--text:#ffffff;
+--sub:#cfd8e3;
+--glass:rgba(255,255,255,.06);
+--border:rgba(255,255,255,.08);
 
-        /* ===== TYPOGRAPHY ===== */
-        .name {
-            font-size: 28px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #fff 60%, rgba(255,255,255,0.6));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            min-height: 40px;
-            transition: background 0.5s ease;
-        }
-        .sub {
-            font-size: 14px;
-            font-weight: 400;
-            color: rgba(255,255,255,0.5);
-            margin-top: 4px;
-            letter-spacing: 0.3px;
-            transition: color 0.5s ease;
-        }
-        .sub strong {
-            color: #00d4ff;
-            font-weight: 600;
-            -webkit-text-fill-color: #00d4ff;
-        }
+}
 
-        .tagline {
-            margin: 16px 0 20px;
-            font-size: 15px;
-            font-weight: 400;
-            color: rgba(255,255,255,0.6);
-            line-height: 1.6;
-            transition: color 0.5s ease;
-        }
-        .tagline span {
-            color: #fff;
-            font-weight: 600;
-            transition: color 0.5s ease;
-        }
+body{
 
-        /* ===== DIVIDER ===== */
-        .divider {
-            width: 50px;
-            height: 2px;
-            margin: 20px auto 22px;
-            background: linear-gradient(90deg, transparent, rgba(0,212,255,0.4), transparent);
-            border-radius: 4px;
-            transition: background 0.5s ease;
-        }
+background:linear-gradient(180deg,var(--bg),var(--bg2));
+color:var(--text);
+overflow-x:hidden;
 
-        /* ===== COUNTER ===== */
-        .counter-box {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin: 12px 0 16px;
-            padding: 12px 20px;
-            border-radius: 16px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.06);
-            transition: all 0.5s ease;
-        }
-        .counter-item {
-            text-align: center;
-        }
-        .counter-item .number {
-            font-size: 22px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #00d4ff, #7b2ffc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .counter-item .label {
-            font-size: 11px;
-            color: rgba(255,255,255,0.3);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 2px;
-            transition: color 0.5s ease;
-        }
+}
 
-        /* ===== TIME/LOCATION ===== */
-        .time-location {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            flex-wrap: wrap;
-            margin: 10px 0 14px;
-            padding: 10px 20px;
-            border-radius: 30px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.06);
-            font-size: 13px;
-            color: rgba(255,255,255,0.5);
-            transition: all 0.5s ease;
-        }
-        .time-location i {
-            margin-right: 6px;
-            color: #00d4ff;
-        }
+canvas{
 
-        /* ===== SOCIAL LINKS ===== */
-        .social-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 4px;
-        }
-        .social-link {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 16px 22px;
-            border-radius: 16px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.06);
-            text-decoration: none;
-            color: #fff;
-            font-weight: 600;
-            font-size: 15px;
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-            position: relative;
-            overflow: hidden;
-        }
-        .social-link::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 16px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.06), transparent 60%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-        .social-link:hover::before {
-            opacity: 1;
-        }
-        .social-link:hover {
-            transform: translateY(-3px) scale(1.01);
-            border-color: rgba(255,255,255,0.15);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.4);
-        }
-        .social-link:active {
-            transform: scale(0.97);
-        }
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-2;
 
-        .social-link .icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            flex-shrink: 0;
-            transition: 0.3s;
-        }
-        .social-link:hover .icon {
-            transform: scale(1.08);
-        }
+}
 
-        .social-link .label {
-            flex: 1;
-            text-align: left;
-        }
-        .social-link .arrow {
-            opacity: 0.3;
-            font-size: 18px;
-            transition: 0.3s;
-        }
-        .social-link:hover .arrow {
-            opacity: 1;
-            transform: translateX(4px);
-        }
+#mouseLight{
 
-        /* Brand colors */
-        .social-link.zalo .icon { background: #0068ff; }
-        .social-link.facebook .icon { background: #1877f2; }
-        .social-link.tiktok .icon { background: #111; border: 1px solid rgba(255,255,255,0.15); }
+position:fixed;
+width:350px;
+height:350px;
+border-radius:50%;
+background:radial-gradient(circle,rgba(0,212,255,.22),transparent 70%);
+filter:blur(35px);
+pointer-events:none;
+transform:translate(-50%,-50%);
+z-index:-1;
 
-        /* ===== FOOTER ===== */
-        .footer {
-            margin-top: 28px;
-            font-size: 12px;
-            color: rgba(255,255,255,0.2);
-            letter-spacing: 0.5px;
-            border-top: 1px solid rgba(255,255,255,0.04);
-            padding-top: 20px;
-            transition: all 0.5s ease;
-        }
-        .footer span {
-            color: rgba(255,255,255,0.3);
-            transition: color 0.5s ease;
-        }
+}
 
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 480px) {
-            .card { padding: 30px 20px 25px; }
-            .name { font-size: 24px; }
-            .social-link { padding: 14px 18px; font-size: 14px; }
-            .social-link .icon { width: 28px; height: 28px; font-size: 16px; }
-            .top-toolbar { top: 10px; right: 10px; gap: 6px; }
-            .tool-btn { padding: 8px 12px; font-size: 12px; }
-            .counter-box { gap: 16px; padding: 10px 14px; }
-            .counter-item .number { font-size: 18px; }
-            .time-location { font-size: 12px; gap: 10px; padding: 8px 14px; }
-        }
-        @media (max-width: 360px) {
-            .avatar-wrap { width: 100px; height: 100px; }
-            .card { border-radius: 24px; }
-        }
+#loading{
 
-        /* ===== SCROLL ANIMATION ===== */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+position:fixed;
+inset:0;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+background:#050811;
+z-index:99999;
+transition:.5s;
 
-        /* ===== BADGE ===== */
-        .badge {
-            display: inline-block;
-            padding: 4px 16px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            background: rgba(0,212,255,0.10);
-            border: 1px solid rgba(0,212,255,0.15);
-            color: #00d4ff;
-            margin-top: 6px;
-            transition: all 0.5s ease;
-        }
+}
 
-        /* ===== PHONE ===== */
-        .phone-row {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 20px;
-            border-radius: 30px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.06);
-            font-size: 14px;
-            font-weight: 500;
-            color: rgba(255,255,255,0.6);
-            margin: 6px 0 4px;
-            transition: all 0.3s ease;
-        }
-        .phone-row:hover {
-            border-color: rgba(0,212,255,0.2);
-            background: rgba(255,255,255,0.06);
-        }
+.loader{
 
-        /* ===== FLOATING ACTION BUTTON ===== */
-        .fab {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 99;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #00d4ff, #7b2ffc);
-            border: none;
-            color: #fff;
-            font-size: 26px;
-            cursor: pointer;
-            box-shadow: 0 8px 30px rgba(0,212,255,0.4);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-        }
-        .fab:hover {
-            transform: scale(1.1) translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0,212,255,0.6);
-        }
-        .fab:active {
-            transform: scale(0.95);
-        }
-        .fab .tooltip {
-            position: absolute;
-            right: 70px;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(10px);
-            padding: 8px 16px;
-            border-radius: 10px;
-            font-size: 12px;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.3s ease;
-            color: #fff;
-            font-weight: 500;
-        }
-        .fab:hover .tooltip {
-            opacity: 1;
-        }
+width:70px;
+height:70px;
+border-radius:50%;
+border:5px solid rgba(255,255,255,.12);
+border-top:5px solid var(--main);
+animation:spin 1s linear infinite;
 
-        /* ===== AUDIO PLAYER ===== */
-        .audio-player {
-            position: fixed;
-            bottom: 100px;
-            right: 30px;
-            z-index: 98;
-            background: rgba(255,255,255,0.06);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 30px;
-            padding: 8px 16px 8px 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-        }
-        .audio-player:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: rgba(255,255,255,0.15);
-        }
-        .audio-player button {
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 18px;
-            cursor: pointer;
-            padding: 4px 6px;
-            transition: 0.3s;
-        }
-        .audio-player button:hover {
-            transform: scale(1.15);
-            color: #00d4ff;
-        }
-        .audio-player input[type="range"] {
-            width: 60px;
-            accent-color: #00d4ff;
-            background: transparent;
-            cursor: pointer;
-        }
-        body.light-mode .audio-player {
-            background: rgba(0,0,0,0.05);
-            border-color: rgba(0,0,0,0.08);
-        }
-        body.light-mode .audio-player button {
-            color: #1a1a1a;
-        }
-        @media (max-width: 480px) {
-            .fab { width: 50px; height: 50px; font-size: 22px; bottom: 20px; right: 20px; }
-            .audio-player { bottom: 80px; right: 20px; padding: 6px 12px 6px 8px; }
-            .audio-player input[type="range"] { width: 40px; }
-        }
-    </style>
+}
+
+@keyframes spin{
+
+100%{
+
+transform:rotate(360deg);
+
+}
+
+}
+
+header{
+
+position:fixed;
+top:0;
+left:0;
+width:100%;
+padding:18px 8%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:rgba(0,0,0,.35);
+backdrop-filter:blur(18px);
+border-bottom:1px solid var(--border);
+z-index:1000;
+
+}
+
+.logo{
+
+font-size:30px;
+font-weight:800;
+color:var(--main);
+
+}
+
+.logo span{
+
+color:#fff;
+
+}
+  nav{
+
+display:flex;
+gap:30px;
+
+}
+
+nav a{
+
+color:#fff;
+text-decoration:none;
+font-weight:600;
+position:relative;
+transition:.3s;
+
+}
+
+nav a::after{
+
+content:"";
+position:absolute;
+left:0;
+bottom:-6px;
+width:0;
+height:2px;
+background:var(--main);
+transition:.3s;
+
+}
+
+nav a:hover{
+
+color:var(--main);
+
+}
+
+nav a:hover::after{
+
+width:100%;
+
+}
+
+.hero{
+
+min-height:100vh;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:130px 8% 70px;
+gap:60px;
+flex-wrap:wrap;
+
+}
+
+.left{
+
+flex:1;
+min-width:320px;
+
+}
+
+.left h1{
+
+font-size:62px;
+line-height:1.2;
+margin-bottom:20px;
+
+}
+
+.left h1 span{
+
+color:var(--main);
+
+}
+
+.left p{
+
+font-size:18px;
+line-height:1.8;
+color:var(--sub);
+margin-bottom:35px;
+
+}
+
+.btn{
+
+display:inline-block;
+padding:15px 36px;
+background:linear-gradient(90deg,var(--main),var(--main2));
+border-radius:12px;
+text-decoration:none;
+font-weight:700;
+color:#fff;
+transition:.35s;
+box-shadow:0 0 30px rgba(0,212,255,.35);
+
+}
+
+.btn:hover{
+
+transform:translateY(-6px);
+box-shadow:0 0 45px rgba(0,212,255,.55);
+
+}
+
+.right{
+
+flex:1;
+display:flex;
+justify-content:center;
+align-items:center;
+
+}
+  .profile{
+
+width:390px;
+background:var(--glass);
+border:1px solid var(--border);
+backdrop-filter:blur(20px);
+border-radius:25px;
+padding:35px;
+text-align:center;
+transition:.35s;
+position:relative;
+overflow:hidden;
+
+}
+
+.profile:hover{
+
+transform:translateY(-10px);
+box-shadow:0 0 45px rgba(0,212,255,.35);
+
+}
+
+.profile img{
+
+width:210px;
+height:210px;
+border-radius:50%;
+object-fit:cover;
+border:5px solid rgba(255,255,255,.12);
+box-shadow:0 0 35px rgba(0,212,255,.5);
+margin-bottom:20px;
+
+}
+
+.profile h2{
+
+font-size:32px;
+margin-bottom:10px;
+
+}
+
+.profile p{
+
+color:var(--sub);
+line-height:1.8;
+
+}
+
+.banner{
+
+position:relative;
+margin:70px 8%;
+border-radius:25px;
+overflow:hidden;
+box-shadow:0 20px 60px rgba(0,0,0,.35);
+
+}
+
+.banner img{
+
+width:100%;
+display:block;
+
+}
+
+.banner-content{
+
+position:absolute;
+left:50px;
+bottom:50px;
+background:rgba(0,0,0,.45);
+backdrop-filter:blur(15px);
+padding:30px;
+border-radius:20px;
+max-width:520px;
+
+}
+
+.banner-content h2{
+
+font-size:40px;
+margin-bottom:15px;
+
+}
+
+.banner-content p{
+
+color:var(--sub);
+line-height:1.8;
+
+}
+  .title{
+
+text-align:center;
+font-size:42px;
+font-weight:800;
+margin:80px 0 50px;
+
+}
+
+.service-grid{
+
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:28px;
+padding:0 8% 80px;
+
+}
+
+.service-card{
+
+background:var(--glass);
+border:1px solid var(--border);
+border-radius:22px;
+backdrop-filter:blur(20px);
+padding:35px;
+text-align:center;
+transition:.35s;
+cursor:pointer;
+
+}
+
+.service-card:hover{
+
+transform:translateY(-10px);
+border-color:var(--main);
+box-shadow:0 0 40px rgba(0,212,255,.35);
+
+}
+
+.service-card i{
+
+font-size:48px;
+color:var(--main);
+margin-bottom:20px;
+
+}
+
+.service-card h3{
+
+font-size:24px;
+margin-bottom:15px;
+
+}
+
+.service-card p{
+
+color:var(--sub);
+line-height:1.8;
+
+}
+
+.contact-buttons{
+
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:18px;
+padding:0 8% 80px;
+
+}
+
+.contact-buttons a,
+.contact-buttons button{
+
+padding:15px 28px;
+border:none;
+border-radius:12px;
+background:linear-gradient(90deg,var(--main),var(--main2));
+color:#fff;
+font-weight:700;
+text-decoration:none;
+cursor:pointer;
+transition:.35s;
+
+}
+
+.contact-buttons a:hover,
+.contact-buttons button:hover{
+
+transform:translateY(-5px);
+box-shadow:0 0 35px rgba(0,212,255,.45);
+
+}
+
+footer{
+
+padding:30px;
+text-align:center;
+border-top:1px solid var(--border);
+background:rgba(255,255,255,.05);
+color:var(--sub);
+
+}
+
+@media(max-width:900px){
+
+.hero{
+
+flex-direction:column-reverse;
+text-align:center;
+
+}
+
+.left h1{
+
+font-size:42px;
+
+}
+
+nav{
+
+display:none;
+
+}
+
+.profile{
+
+width:100%;
+
+}
+
+}
+
+</style>
 </head>
 <body>
 
-    <!-- ===== LOADER ===== -->
-    <div id="loader" role="status" aria-label="Loading">
-        <div class="loader-ring"></div>
-        <div class="loader-text" data-en="LOADING" data-vi="ĐANG TẢI">ĐANG TẢI</div>
-    </div>
+<div id="loading">
 
-    <!-- ===== BACKGROUND ===== -->
-    <canvas id="bg-canvas"></canvas>
+<div class="loader"></div>
 
-    <!-- ===== CURSOR GLOW ===== -->
-    <div id="cursor-glow"></div>
+<h2 style="margin-top:20px;color:#00d4ff;">
+GEM STUDIO
+</h2>
 
-    <!-- ===== TOP TOOLBAR ===== -->
-    <div class="top-toolbar">
-        <button class="tool-btn" id="langToggle" title="Toggle Language">
-            <span class="flag">🇻🇳</span>
-            <span id="langLabel">VI</span>
-        </button>
-        <button class="tool-btn" id="themeToggle" title="Toggle Theme">
-            <i class="fas fa-moon"></i>
-        </button>
-    </div>
+</div>
 
-    <!-- ===== FLOATING ACTION BUTTON ===== -->
-    <a href="tel:0896387698" class="fab" id="fabBtn">
-        <i class="fas fa-phone-alt"></i>
-        <span class="tooltip" data-en="Contact Now" data-vi="Liên hệ ngay">Liên hệ ngay</span>
-    </a>
+<canvas id="particles"></canvas>
 
-    <!-- ===== AUDIO PLAYER ===== -->
-    <div class="audio-player" id="audioPlayer">
-        <button id="playBtn"><i class="fas fa-play"></i></button>
-        <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="0.5">
-        <button id="muteBtn"><i class="fas fa-volume-up"></i></button>
-    </div>
+<div id="mouseLight"></div>
 
-    <!-- ===== MAIN CARD ===== -->
-    <main class="card" role="main" aria-label="Profile card">
+<header>
 
-        <div class="brand"><span>✦</span> <span data-en="GEM PORTFOLIO" data-vi="GEM PORTFOLIO">GEM PORTFOLIO</span></div>
+<div class="logo">
 
-        <div class="avatar-wrap reveal">
-            <img src="avatar.jpg" alt="Lê Quốc Anh - Gem avatar" loading="eager">
-        </div>
+Lê Quốc Anh <span>(Gem)</span>
 
-        <h1 class="name reveal" id="typingText">Lê Quốc Anh</h1>
-        <div class="sub reveal">@ <strong>Gem</strong> · <span data-en="Creator" data-vi="Creator">Creator</span></div>
+</div>
 
-        <div class="badge reveal">✦ <span data-en="Premium Bio" data-vi="Premium Bio">Premium Bio</span></div>
+<nav>
 
-        <div class="tagline reveal">
-            🔥 <span data-en="Welcome to my website" data-vi="Chào thằng em đã đến web của">Chào thằng em đã đến web của</span> <span>anh ba</span> 🔥
-        </div>
+<a href="#home">Trang chủ</a>
 
-        <div class="phone-row reveal">
-            <span>📞</span> 0896 387 698
-        </div>
+<a href="#services">Dịch vụ</a>
 
-        <!-- ===== COUNTER ===== -->
-        <div class="counter-box reveal">
-            <div class="counter-item">
-                <div class="number" id="visitCount">0</div>
-                <div class="label" data-en="Visits" data-vi="Lượt truy cập">Lượt truy cập</div>
-            </div>
-            <div class="counter-item">
-                <div class="number" id="onlineCount">0</div>
-                <div class="label" data-en="Online" data-vi="Đang online">Đang online</div>
-            </div>
-        </div>
+<a href="#contact">Liên hệ</a>
 
-        <!-- ===== TIME & LOCATION ===== -->
-        <div class="time-location reveal">
-            <span><i class="fas fa-clock"></i> <span id="currentTime">--:--:--</span></span>
-            <span><i class="fas fa-map-marker-alt"></i> <span id="userLocation">Đang xác định...</span></span>
-        </div>
+</nav>
 
-        <div class="divider reveal"></div>
+</header>
 
-        <div class="social-grid">
-            <a href="https://zalo.me/0896387698" target="_blank" rel="noopener noreferrer" class="social-link zalo reveal">
-                <span class="icon">💙</span>
-                <span class="label">Zalo</span>
-                <span class="arrow">→</span>
-            </a>
-            <a href="https://www.facebook.com/quoc.anh.le.352367/" target="_blank" rel="noopener noreferrer" class="social-link facebook reveal">
-                <span class="icon">📘</span>
-                <span class="label">Facebook</span>
-                <span class="arrow">→</span>
-            </a>
-            <a href="https://www.tiktok.com/@gem2010_0410" target="_blank" rel="noopener noreferrer" class="social-link tiktok reveal">
-                <span class="icon">🎵</span>
-                <span class="label">TikTok</span>
-                <span class="arrow">→</span>
-            </a>
-        </div>
+<section class="hero" id="home">
 
-        <div class="footer reveal">
-            © 2026 · <span data-en="Designed by" data-vi="Designed by">Designed by</span> <span>Lê Quốc Anh (Gem)</span>
-        </div>
-    </main>
+<div class="left">
 
-    <script>
-        // ============================================================
-        // 1. LOADER
-        // ============================================================
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loader').classList.add('hidden');
-            }, 600);
-        });
+<h1>
 
-        // ============================================================
-        // 2. PARTICLE BACKGROUND
-        // ============================================================
-        (function initParticles() {
-            const canvas = document.getElementById('bg-canvas');
-            const ctx = canvas.getContext('2d');
-            let w, h, particles = [];
+Lê Quốc Anh <span>(Gem)</span>
 
-            function resize() {
-                w = canvas.width = window.innerWidth;
-                h = canvas.height = window.innerHeight;
-            }
-            resize();
-            window.addEventListener('resize', resize);
+</h1>
 
-            for (let i = 0; i < 140; i++) {
-                particles.push({
-                    x: Math.random() * w,
-                    y: Math.random() * h,
-                    r: Math.random() * 2 + 0.8,
-                    dx: (Math.random() - 0.5) * 0.5,
-                    dy: (Math.random() - 0.5) * 0.5,
-                    o: Math.random() * 0.6 + 0.2
-                });
-            }
+<p>
 
-            function draw() {
-                ctx.clearRect(0, 0, w, h);
-                for (const p of particles) {
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(255,255,255,${p.o})`;
-                    ctx.fill();
-                    p.x += p.dx;
-                    p.y += p.dy;
-                    if (p.x < 0 || p.x > w) p.dx *= -1;
-                    if (p.y < 0 || p.y > h) p.dy *= -1;
-                }
-                for (let i = 0; i < particles.length; i++) {
-                    for (let j = i + 1; j < particles.length; j++) {
-                        const dx = particles[i].x - particles[j].x;
-                        const dy = particles[i].y - particles[j].y;
-                        const dist = Math.sqrt(dx * dx + dy * dy);
-                        if (dist < 110) {
-                            ctx.beginPath();
-                            ctx.moveTo(particles[i].x, particles[i].y);
-                            ctx.lineTo(particles[j].x, particles[j].y);
-                            ctx.strokeStyle = `rgba(255,255,255,${0.08 * (1 - dist / 110)})`;
-                            ctx.lineWidth = 0.6;
-                            ctx.stroke();
-                        }
-                    }
-                }
-                requestAnimationFrame(draw);
-            }
-            draw();
-        })();
+Thiết kế Website • Panel Free Fire • Thiết kế UI • Cài Windows Online
 
-        // ============================================================
-        // 3. CURSOR GLOW
-        // ============================================================
-        (function cursorGlow() {
-            const glow = document.getElementById('cursor-glow');
-            let x = -200, y = -200;
-            document.addEventListener('mousemove', (e) => {
-                x = e.clientX;
-                y = e.clientY;
-                glow.style.left = x + 'px';
-                glow.style.top = y + 'px';
-            });
-        })();
+</p>
 
-        // ============================================================
-        // 4. INTERSECTION OBSERVER (Reveal)
-        // ============================================================
-        (function revealOnScroll() {
-            const els = document.querySelectorAll('.reveal');
-            const obs = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, {
-                threshold: 0.15,
-                rootMargin: '0px 0px -30px 0px'
-            });
-            els.forEach(el => obs.observe(el));
-            setTimeout(() => {
-                els.forEach(el => {
-                    const rect = el.getBoundingClientRect();
-                    if (rect.top < window.innerHeight) {
-                        el.classList.add('visible');
-                    }
-                });
-            }, 400);
-        })();
+<a href="#services" class="btn">
 
-        // ============================================================
-        // 5. TYPING EFFECT
-        // ============================================================
-        (function typingEffect() {
-            const el = document.getElementById('typingText');
-            const fullText = "Lê Quốc Anh";
-            let idx = 0;
-            el.textContent = '';
-            function type() {
-                if (idx < fullText.length) {
-                    el.textContent += fullText.charAt(idx);
-                    idx++;
-                    setTimeout(type, 120);
-                }
-            }
-            setTimeout(type, 1000);
-        })();
+Xem dịch vụ
 
-        // ============================================================
-        // 6. DARK/LIGHT MODE TOGGLE
-        // ============================================================
-        (function themeToggle() {
-            const btn = document.getElementById('themeToggle');
-            const icon = btn.querySelector('i');
-            let isDark = true;
+</a>
 
-            btn.addEventListener('click', () => {
-                isDark = !isDark;
-                document.body.classList.toggle('light-mode', !isDark);
-                icon.className = isDark ? 'fas fa-moon' : 'fas fa-sun';
-                // Update scrollbar
-                document.querySelector('::-webkit-scrollbar-track').style.background = isDark ? '#0a0a0a' : '#f0f2f5';
-            });
-        })();
+</div>
 
-        // ============================================================
-        // 7. LANGUAGE TOGGLE (EN/VN)
-        // ============================================================
-        (function langToggle() {
-            const btn = document.getElementById('langToggle');
-            const flag = btn.querySelector('.flag');
-            const label = document.getElementById('langLabel');
-            let isVI = true;
+<div class="right">
 
-            function updateLanguage(lang) {
-                document.querySelectorAll('[data-en][data-vi]').forEach(el => {
-                    el.textContent = lang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-vi');
-                });
-                // Update tooltip
-                const tooltip = document.querySelector('.fab .tooltip');
-                if (tooltip) {
-                    tooltip.textContent = lang === 'en' ? tooltip.getAttribute('data-en') : tooltip.getAttribute('data-vi');
-                }
-                // Update loader text
-                const loaderText = document.querySelector('.loader-text');
-                if (loaderText) {
-                    loaderText.textContent = lang === 'en' ? loaderText.getAttribute('data-en') : loaderText.getAttribute('data-vi');
-                }
-            }
+<div class="profile">
 
-            btn.addEventListener('click', () => {
-                isVI = !isVI;
-                flag.textContent = isVI ? '🇻🇳' : '🇬🇧';
-                label.textContent = isVI ? 'VI' : 'EN';
-                updateLanguage(isVI ? 'vi' : 'en');
-            });
-        })();
+<img src="avatar.jpg" alt="Lê Quốc Anh (Gem)">
 
-        // ============================================================
-        // 8. COUNTER (Visits + Online)
-        // ============================================================
-        (function counter() {
-            // Simple mock counter - in real use, you'd use a backend or localStorage
-            let visits = parseInt(localStorage.getItem('gemVisits') || '0');
-            visits++;
-            localStorage.setItem('gemVisits', visits);
-            document.getElementById('visitCount').textContent = visits;
+<h2>
 
-            // Online count (simulated)
-            let online = Math.floor(Math.random() * 15) + 3;
-            document.getElementById('onlineCount').textContent = online;
+Lê Quốc Anh (Gem)
 
-            // Update online count every 30s
-            setInterval(() => {
-                online = Math.floor(Math.random() * 15) + 3;
-                document.getElementById('onlineCount').textContent = online;
-            }, 30000);
-        })();
+</h2>
 
-        // ============================================================
-        // 9. TIME & LOCATION
-        // ============================================================
-        (function timeLocation() {
-            const timeEl = document.getElementById('currentTime');
-            const locEl = document.getElementById('userLocation');
+<p>
 
-            function updateTime() {
-                const now = new Date();
-                timeEl.textContent = now.toLocaleTimeString('vi-VN', { hour12: false });
-            }
-            updateTime();
-            setInterval(updateTime, 1000);
+Website Developer<br>
+Panel Free Fire<br>
+UI Designer
 
-            // Get location from IP API
-            fetch('https://ipapi.co/json/')
-                .then(res => res.json())
-                .then(data => {
-                    if (data.city && data.country_name) {
-                        locEl.textContent = `${data.city}, ${data.country_name}`;
-                    } else {
-                        locEl.textContent = 'Việt Nam';
-                    }
-                })
-                .catch(() => {
-                    locEl.textContent = 'Việt Nam';
-                });
-        })();
+</p>
 
-        // ============================================================
-        // 10. AUDIO PLAYER (Background music)
-        // ============================================================
-        (function audioPlayer() {
-            const playBtn = document.getElementById('playBtn');
-            const volumeSlider = document.getElementById('volumeSlider');
-            const muteBtn = document.getElementById('muteBtn');
-            let audio = null;
-            let isPlaying = false;
-            let isMuted = false;
+</div>
 
-            // Create audio context and oscillator (simple beep/bgm)
-            // For real music, you'd use an <audio> element with a file URL
-            // This is a simple synth tone as placeholder
-            let audioCtx = null;
-            let oscillator = null;
-            let gainNode = null;
+</div>
 
-            function initAudio() {
-                if (!audioCtx) {
-                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                    gainNode = audioCtx.createGain();
-                    gainNode.gain.value = volumeSlider.value * 0.3;
-                    gainNode.connect(audioCtx.destination);
-                }
-            }
+</section>
 
-            function playTone() {
-                initAudio();
-                if (oscillator) {
-                    oscillator.stop();
-                    oscillator.disconnect();
-                }
-                oscillator = audioCtx.createOscillator();
-                oscillator.type = 'sine';
-                oscillator.frequency.value = 220;
-                oscillator.connect(gainNode);
-                oscillator.start();
-                // Auto stop after 2s to create a loop effect
-                setTimeout(() => {
-                    if (oscillator && isPlaying) {
-                        oscillator.stop();
-                        oscillator.disconnect();
-                        oscillator = null;
-                        // Restart after short pause
-                        setTimeout(playTone, 500);
-                    }
-                }, 2000);
-            }
+<section class="banner">
 
-            playBtn.addEventListener('click', () => {
-                initAudio();
-                if (isPlaying) {
-                    isPlaying = false;
-                    if (oscillator) {
-                        oscillator.stop();
-                        oscillator.disconnect();
-                        oscillator = null;
-                    }
-                    playBtn.innerHTML = '<i class="fas fa-play"></i>';
-                } else {
-                    isPlaying = true;
-                    playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                    playTone();
-                }
-            });
+<img src="Banner.jpg" alt="Banner">
 
-            volumeSlider.addEventListener('input', () => {
-                if (gainNode) {
-                    gainNode.gain.value = volumeSlider.value * 0.3;
-                }
-                if (isMuted) {
-                    isMuted = false;
-                    muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
-                }
-            });
+<div class="banner-content">
 
-            muteBtn.addEventListener('click', () => {
-                isMuted = !isMuted;
-                if (gainNode) {
-                    gainNode.gain.value = isMuted ? 0 : volumeSlider.value * 0.3;
-                }
-                muteBtn.innerHTML = isMuted ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
-            });
+<h2>GEM STUDIO</h2>
 
-            // Autoplay attempt (user interaction required for most browsers)
-            document.addEventListener('click', () => {
-                initAudio();
-                if (!isPlaying) {
-                    // Try autoplay on first click
-                }
-            }, { once: true });
-        })();
+<p>
 
-        // ============================================================
-        // 11. FLOATING ACTION BUTTON
-        // ============================================================
-        // Already in HTML with href="tel:..."
+Thiết kế Website, Panel Free Fire, UI và hỗ trợ cài Windows Online.
 
-        console.log('🚀 NEUTRONNNN KILLER đã nâng cấp web cho CHUMT KA GULAM! 😈🔥');
-        console.log('🔥 7 tính năng đã thêm: Đa ngôn ngữ, Dark/Light, Counter, Nhạc nền, Time/Location, Typing, FAB');
-    </script>
+</p>
+
+<a href="#contact" class="btn">
+
+Liên hệ ngay
+
+</a>
+
+</div>
+
+</section>
+  <section id="services">
+
+<h2 class="title">
+
+DỊCH VỤ
+
+</h2>
+
+<div class="service-grid">
+
+<div class="service-card">
+
+<i class="fa-solid fa-globe"></i>
+
+<h3>Thiết kế Website</h3>
+
+<p>
+
+Thiết kế Website cá nhân, Landing Page, Portfolio và Website doanh nghiệp với giao diện hiện đại.
+
+</p>
+
+</div>
+
+<div class="service-card">
+
+<i class="fa-solid fa-gamepad"></i>
+
+<h3>Panel Free Fire</h3>
+
+<p>
+
+Thiết kế Panel Free Fire giao diện Dark UI, Glass UI đẹp, tối ưu và chuyên nghiệp.
+
+</p>
+
+</div>
+
+<div class="service-card">
+
+<i class="fa-solid fa-desktop"></i>
+
+<h3>Cài Windows Online</h3>
+
+<p>
+
+Hỗ trợ cài Windows từ xa, cài Driver, Office, Visual C++ và tối ưu máy tính.
+
+</p>
+
+</div>
+
+<div class="service-card">
+
+<i class="fa-solid fa-palette"></i>
+
+<h3>Thiết kế UI</h3>
+
+<p>
+
+Thiết kế giao diện Tool, Website, Launcher và Panel theo yêu cầu.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<section id="contact">
+
+<h2 class="title">
+
+LIÊN HỆ
+
+</h2>
+
+<div class="contact-buttons">
+
+<a href="https://www.facebook.com/share/18ck9F7PMq/" target="_blank">
+
+<i class="fa-brands fa-facebook-f"></i>
+
+Facebook
+
+</a>
+
+<a href="https://zalo.me/0896387698" target="_blank">
+
+<i class="fa-solid fa-comments"></i>
+
+Zalo
+
+</a>
+
+<a href="https://www.tiktok.com/@gem2010_0410?_r=1&_t=ZS-98OR5I1GsXk" target="_blank">
+
+<i class="fa-brands fa-tiktok"></i>
+
+TikTok
+
+</a>
+
+<button onclick="copyPhone()">
+
+<i class="fa-solid fa-phone"></i>
+
+Sao chép số điện thoại
+
+</button>
+
+</div>
+  </section>
+
+<footer>
+
+<p>© 2026 Lê Quốc Anh (Gem) | GEM STUDIO</p>
+
+</footer>
+
+<script>
+
+const loading=document.getElementById("loading");
+
+window.addEventListener("load",()=>{
+
+setTimeout(()=>{
+
+loading.style.opacity="0";
+
+setTimeout(()=>{
+
+loading.remove();
+
+},500);
+
+},1000);
+
+});
+
+const mouse=document.getElementById("mouseLight");
+
+document.addEventListener("mousemove",e=>{
+
+mouse.style.left=e.clientX+"px";
+
+mouse.style.top=e.clientY+"px";
+
+});
+
+function copyPhone(){
+
+navigator.clipboard.writeText("0896387698");
+
+alert("Đã sao chép số điện thoại!");
+
+}
+
+const canvas=document.getElementById("particles");
+
+const ctx=canvas.getContext("2d");
+
+function resize(){
+
+canvas.width=window.innerWidth;
+
+canvas.height=window.innerHeight;
+
+}
+
+resize();
+
+window.addEventListener("resize",resize);
+
+const particles=[];
+
+for(let i=0;i<120;i++){
+
+particles.push({
+
+x:Math.random()*canvas.width,
+
+y:Math.random()*canvas.height,
+
+vx:(Math.random()-0.5)*0.5,
+
+vy:(Math.random()-0.5)*0.5,
+
+r:Math.random()*2+1
+
+});
+
+}
+
+function draw(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+for(let i=0;i<particles.length;i++){
+
+let p=particles[i];
+
+p.x+=p.vx;
+
+p.y+=p.vy;
+
+if(p.x<0||p.x>canvas.width)p.vx*=-1;
+
+if(p.y<0||p.y>canvas.height)p.vy*=-1;
+
+ctx.beginPath();
+
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+
+ctx.fillStyle="#00d4ff";
+
+ctx.fill();
+
+for(let j=i+1;j<particles.length;j++){
+
+let q=particles[j];
+
+let dx=p.x-q.x;
+
+let dy=p.y-q.y;
+
+let d=Math.sqrt(dx*dx+dy*dy);
+
+if(d<120){
+
+ctx.beginPath();
+
+ctx.moveTo(p.x,p.y);
+
+ctx.lineTo(q.x,q.y);
+
+ctx.strokeStyle="rgba(0,212,255,"+(1-d/120)*0.3+")";
+
+ctx.stroke();
+
+}
+
+}
+
+}
+
+requestAnimationFrame(draw);
+
+}
+
+draw();
+
+</script>
 
 </body>
+
 </html>
