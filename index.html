@@ -1,845 +1,613 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-
-<title>Lê Quốc Anh (Gem) | GEM STUDIO</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:"Poppins",sans-serif;
-scroll-behavior:smooth;
-}
-
-:root{
-
---bg:#050811;
---bg2:#0b1327;
---main:#00d4ff;
---main2:#008cff;
---text:#ffffff;
---sub:#cfd8e3;
---glass:rgba(255,255,255,.06);
---border:rgba(255,255,255,.08);
-
-}
-
-body{
-
-background:linear-gradient(180deg,var(--bg),var(--bg2));
-color:var(--text);
-overflow-x:hidden;
-
-}
-
-canvas{
-
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-z-index:-2;
-
-}
-
-#mouseLight{
-
-position:fixed;
-width:350px;
-height:350px;
-border-radius:50%;
-background:radial-gradient(circle,rgba(0,212,255,.22),transparent 70%);
-filter:blur(35px);
-pointer-events:none;
-transform:translate(-50%,-50%);
-z-index:-1;
-
-}
-
-#loading{
-
-position:fixed;
-inset:0;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-background:#050811;
-z-index:99999;
-transition:.5s;
-
-}
-
-.loader{
-
-width:70px;
-height:70px;
-border-radius:50%;
-border:5px solid rgba(255,255,255,.12);
-border-top:5px solid var(--main);
-animation:spin 1s linear infinite;
-
-}
-
-@keyframes spin{
-
-100%{
-
-transform:rotate(360deg);
-
-}
-
-}
-
-header{
-
-position:fixed;
-top:0;
-left:0;
-width:100%;
-padding:18px 8%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-background:rgba(0,0,0,.35);
-backdrop-filter:blur(18px);
-border-bottom:1px solid var(--border);
-z-index:1000;
-
-}
-
-.logo{
-
-font-size:30px;
-font-weight:800;
-color:var(--main);
-
-}
-
-.logo span{
-
-color:#fff;
-
-}
-  nav{
-
-display:flex;
-gap:30px;
-
-}
-
-nav a{
-
-color:#fff;
-text-decoration:none;
-font-weight:600;
-position:relative;
-transition:.3s;
-
-}
-
-nav a::after{
-
-content:"";
-position:absolute;
-left:0;
-bottom:-6px;
-width:0;
-height:2px;
-background:var(--main);
-transition:.3s;
-
-}
-
-nav a:hover{
-
-color:var(--main);
-
-}
-
-nav a:hover::after{
-
-width:100%;
-
-}
-
-.hero{
-
-min-height:100vh;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:130px 8% 70px;
-gap:60px;
-flex-wrap:wrap;
-
-}
-
-.left{
-
-flex:1;
-min-width:320px;
-
-}
-
-.left h1{
-
-font-size:62px;
-line-height:1.2;
-margin-bottom:20px;
-
-}
-
-.left h1 span{
-
-color:var(--main);
-
-}
-
-.left p{
-
-font-size:18px;
-line-height:1.8;
-color:var(--sub);
-margin-bottom:35px;
-
-}
-
-.btn{
-
-display:inline-block;
-padding:15px 36px;
-background:linear-gradient(90deg,var(--main),var(--main2));
-border-radius:12px;
-text-decoration:none;
-font-weight:700;
-color:#fff;
-transition:.35s;
-box-shadow:0 0 30px rgba(0,212,255,.35);
-
-}
-
-.btn:hover{
-
-transform:translateY(-6px);
-box-shadow:0 0 45px rgba(0,212,255,.55);
-
-}
-
-.right{
-
-flex:1;
-display:flex;
-justify-content:center;
-align-items:center;
-
-}
-  .profile{
-
-width:390px;
-background:var(--glass);
-border:1px solid var(--border);
-backdrop-filter:blur(20px);
-border-radius:25px;
-padding:35px;
-text-align:center;
-transition:.35s;
-position:relative;
-overflow:hidden;
-
-}
-
-.profile:hover{
-
-transform:translateY(-10px);
-box-shadow:0 0 45px rgba(0,212,255,.35);
-
-}
-
-.profile img{
-
-width:210px;
-height:210px;
-border-radius:50%;
-object-fit:cover;
-border:5px solid rgba(255,255,255,.12);
-box-shadow:0 0 35px rgba(0,212,255,.5);
-margin-bottom:20px;
-
-}
-
-.profile h2{
-
-font-size:32px;
-margin-bottom:10px;
-
-}
-
-.profile p{
-
-color:var(--sub);
-line-height:1.8;
-
-}
-
-.banner{
-
-position:relative;
-margin:70px 8%;
-border-radius:25px;
-overflow:hidden;
-box-shadow:0 20px 60px rgba(0,0,0,.35);
-
-}
-
-.banner img{
-
-width:100%;
-display:block;
-
-}
-
-.banner-content{
-
-position:absolute;
-left:50px;
-bottom:50px;
-background:rgba(0,0,0,.45);
-backdrop-filter:blur(15px);
-padding:30px;
-border-radius:20px;
-max-width:520px;
-
-}
-
-.banner-content h2{
-
-font-size:40px;
-margin-bottom:15px;
-
-}
-
-.banner-content p{
-
-color:var(--sub);
-line-height:1.8;
-
-}
-  .title{
-
-text-align:center;
-font-size:42px;
-font-weight:800;
-margin:80px 0 50px;
-
-}
-
-.service-grid{
-
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:28px;
-padding:0 8% 80px;
-
-}
-
-.service-card{
-
-background:var(--glass);
-border:1px solid var(--border);
-border-radius:22px;
-backdrop-filter:blur(20px);
-padding:35px;
-text-align:center;
-transition:.35s;
-cursor:pointer;
-
-}
-
-.service-card:hover{
-
-transform:translateY(-10px);
-border-color:var(--main);
-box-shadow:0 0 40px rgba(0,212,255,.35);
-
-}
-
-.service-card i{
-
-font-size:48px;
-color:var(--main);
-margin-bottom:20px;
-
-}
-
-.service-card h3{
-
-font-size:24px;
-margin-bottom:15px;
-
-}
-
-.service-card p{
-
-color:var(--sub);
-line-height:1.8;
-
-}
-
-.contact-buttons{
-
-display:flex;
-justify-content:center;
-flex-wrap:wrap;
-gap:18px;
-padding:0 8% 80px;
-
-}
-
-.contact-buttons a,
-.contact-buttons button{
-
-padding:15px 28px;
-border:none;
-border-radius:12px;
-background:linear-gradient(90deg,var(--main),var(--main2));
-color:#fff;
-font-weight:700;
-text-decoration:none;
-cursor:pointer;
-transition:.35s;
-
-}
-
-.contact-buttons a:hover,
-.contact-buttons button:hover{
-
-transform:translateY(-5px);
-box-shadow:0 0 35px rgba(0,212,255,.45);
-
-}
-
-footer{
-
-padding:30px;
-text-align:center;
-border-top:1px solid var(--border);
-background:rgba(255,255,255,.05);
-color:var(--sub);
-
-}
-
-@media(max-width:900px){
-
-.hero{
-
-flex-direction:column-reverse;
-text-align:center;
-
-}
-
-.left h1{
-
-font-size:42px;
-
-}
-
-nav{
-
-display:none;
-
-}
-
-.profile{
-
-width:100%;
-
-}
-
-}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Lê Quốc Anh (Gem) | GEM STUDIO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --bg: #050811;
+            --bg2: #0b1327;
+            --main: #00d4ff;
+            --main2: #008cff;
+            --text: #ffffff;
+            --sub: #cfd8e3;
+            --glass: rgba(255, 255, 255, .06);
+            --border: rgba(255, 255, 255, .08);
+        }
+
+        body {
+            background: linear-gradient(180deg, var(--bg), var(--bg2));
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+
+        #mouseLight {
+            position: fixed;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 212, 255, .22), transparent 70%);
+            filter: blur(35px);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+        }
+
+        #loading {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background: #050811;
+            z-index: 99999;
+            transition: .5s;
+        }
+
+        .loader {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 5px solid rgba(255, 255, 255, .12);
+            border-top: 5px solid var(--main);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 18px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, .35);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 30px;
+            font-weight: 800;
+            color: var(--main);
+        }
+
+        .logo span {
+            color: #fff;
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            position: relative;
+            transition: .3s;
+        }
+
+        nav a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -6px;
+            width: 0;
+            height: 2px;
+            background: var(--main);
+            transition: .3s;
+        }
+
+        nav a:hover {
+            color: var(--main);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 130px 8% 70px;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+
+        .left {
+            flex: 1;
+            min-width: 320px;
+        }
+
+        .left h1 {
+            font-size: 62px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .left h1 span {
+            color: var(--main);
+        }
+
+        .left p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--sub);
+            margin-bottom: 35px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 36px;
+            background: linear-gradient(90deg, var(--main), var(--main2));
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            color: #fff;
+            transition: .35s;
+            box-shadow: 0 0 30px rgba(0, 212, 255, .35);
+        }
+
+        .btn:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 0 45px rgba(0, 212, 255, .55);
+        }
+
+        .right {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile {
+            width: 390px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 35px;
+            text-align: center;
+            transition: .35s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 45px rgba(0, 212, 255, .35);
+        }
+
+        .profile img {
+            width: 210px;
+            height: 210px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid rgba(255, 255, 255, .12);
+            box-shadow: 0 0 35px rgba(0, 212, 255, .5);
+            margin-bottom: 20px;
+        }
+
+        .profile h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .profile p {
+            color: var(--sub);
+            line-height: 1.8;
+        }
+
+        .banner {
+            position: relative;
+            margin: 70px 8%;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .35);
+        }
+
+        .banner img {
+            width: 100%;
+            display: block;
+        }
+
+        .banner-content {
+            position: absolute;
+            left: 50px;
+            bottom: 50px;
+            background: rgba(0, 0, 0, .45);
+            backdrop-filter: blur(15px);
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 520px;
+        }
+
+        .banner-content h2 {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .banner-content p {
+            color: var(--sub);
+            line-height: 1.8;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 42px;
+            font-weight: 800;
+            margin: 80px 0 50px;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 28px;
+            padding: 0 8% 80px;
+        }
+
+        .service-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            backdrop-filter: blur(20px);
+            padding: 35px;
+            text-align: center;
+            transition: .35s;
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--main);
+            box-shadow: 0 0 40px rgba(0, 212, 255, .35);
+        }
+
+        .service-card i {
+            font-size: 48px;
+            color: var(--main);
+            margin-bottom: 20px;
+        }
+
+        .service-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .service-card p {
+            color: var(--sub);
+            line-height: 1.8;
+        }
+
+        .contact-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 18px;
+            padding: 0 8% 40px;
+        }
+
+        .contact-buttons a,
+        .contact-buttons button {
+            padding: 15px 28px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(90deg, var(--main), var(--main2));
+            color: #fff;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: .35s;
+        }
+
+        .contact-buttons a:hover,
+        .contact-buttons button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 35px rgba(0, 212, 255, .45);
+        }
+
+        /* ===== ẢNH HACK ===== */
+        .hack-image-section {
+            padding: 0 8% 50px;
+            text-align: center;
+        }
+
+        .hack-image-section img {
+            max-width: 100%;
+            max-height: 320px;
+            border-radius: 20px;
+            border: 2px solid var(--main);
+            box-shadow: 0 0 50px rgba(0, 212, 255, .25);
+            object-fit: cover;
+            transition: .3s;
+        }
+
+        .hack-image-section img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 70px rgba(0, 212, 255, .45);
+        }
+
+        footer {
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            background: rgba(255, 255, 255, .05);
+            color: var(--sub);
+        }
+
+        @media(max-width:900px) {
+            .hero {
+                flex-direction: column-reverse;
+                text-align: center;
+            }
+
+            .left h1 {
+                font-size: 42px;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .profile {
+                width: 100%;
+            }
+
+            .banner-content {
+                left: 20px;
+                bottom: 20px;
+                padding: 20px;
+                max-width: 90%;
+            }
+
+            .banner-content h2 {
+                font-size: 28px;
+            }
+        }
+    </style>
 </head>
 <body>
-
-<div id="loading">
-
-<div class="loader"></div>
-
-<h2 style="margin-top:20px;color:#00d4ff;">
-GEM STUDIO
-</h2>
-
-</div>
-
-<canvas id="particles"></canvas>
-
-<div id="mouseLight"></div>
-
-<header>
-
-<div class="logo">
-
-Lê Quốc Anh <span>(Gem)</span>
-
-</div>
-
-<nav>
-
-<a href="#home">Trang chủ</a>
-
-<a href="#services">Dịch vụ</a>
-
-<a href="#contact">Liên hệ</a>
-
-</nav>
-
-</header>
-
-<section class="hero" id="home">
-
-<div class="left">
-
-<h1>
-
-Lê Quốc Anh <span>(Gem)</span>
-
-</h1>
-
-<p>
-
-Thiết kế Website • Panel Free Fire • Thiết kế UI • Cài Windows Online
-
-</p>
-
-<a href="#services" class="btn">
-
-Xem dịch vụ
-
-</a>
-
-</div>
-
-<div class="right">
-
-<div class="profile">
-
-<img src="avatar.jpg" alt="Lê Quốc Anh (Gem)">
-
-<h2>
-
-Lê Quốc Anh (Gem)
-
-</h2>
-
-<p>
-
-Website Developer<br>
-Panel Free Fire<br>
-UI Designer
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<section class="banner">
-
-<img src="Banner.jpg" alt="Banner">
-
-<div class="banner-content">
-
-<h2>GEM STUDIO</h2>
-
-<p>
-
-Thiết kế Website, Panel Free Fire, UI và hỗ trợ cài Windows Online.
-
-</p>
-
-<a href="#contact" class="btn">
-
-Liên hệ ngay
-
-</a>
-
-</div>
-
-</section>
-  <section id="services">
-
-<h2 class="title">
-
-DỊCH VỤ
-
-</h2>
-
-<div class="service-grid">
-
-<div class="service-card">
-
-<i class="fa-solid fa-globe"></i>
-
-<h3>Thiết kế Website</h3>
-
-<p>
-
-Thiết kế Website cá nhân, Landing Page, Portfolio và Website doanh nghiệp với giao diện hiện đại.
-
-</p>
-
-</div>
-
-<div class="service-card">
-
-<i class="fa-solid fa-gamepad"></i>
-
-<h3>Panel Free Fire</h3>
-
-<p>
-
-Thiết kế Panel Free Fire giao diện Dark UI, Glass UI đẹp, tối ưu và chuyên nghiệp.
-
-</p>
-
-</div>
-
-<div class="service-card">
-
-<i class="fa-solid fa-desktop"></i>
-
-<h3>Cài Windows Online</h3>
-
-<p>
-
-Hỗ trợ cài Windows từ xa, cài Driver, Office, Visual C++ và tối ưu máy tính.
-
-</p>
-
-</div>
-
-<div class="service-card">
-
-<i class="fa-solid fa-palette"></i>
-
-<h3>Thiết kế UI</h3>
-
-<p>
-
-Thiết kế giao diện Tool, Website, Launcher và Panel theo yêu cầu.
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<section id="contact">
-
-<h2 class="title">
-
-LIÊN HỆ
-
-</h2>
-
-<div class="contact-buttons">
-
-<a href="https://www.facebook.com/share/18ck9F7PMq/" target="_blank">
-
-<i class="fa-brands fa-facebook-f"></i>
-
-Facebook
-
-</a>
-
-<a href="https://zalo.me/0896387698" target="_blank">
-
-<i class="fa-solid fa-comments"></i>
-
-Zalo
-
-</a>
-
-<a href="https://www.tiktok.com/@gem2010_0410?_r=1&_t=ZS-98OR5I1GsXk" target="_blank">
-
-<i class="fa-brands fa-tiktok"></i>
-
-TikTok
-
-</a>
-
-<button onclick="copyPhone()">
-
-<i class="fa-solid fa-phone"></i>
-
-Sao chép số điện thoại
-
-</button>
-
-</div>
-  </section>
-
-<footer>
-
-<p>© 2026 Lê Quốc Anh (Gem) | GEM STUDIO</p>
-
-</footer>
-
-<script>
-
-const loading=document.getElementById("loading");
-
-window.addEventListener("load",()=>{
-
-setTimeout(()=>{
-
-loading.style.opacity="0";
-
-setTimeout(()=>{
-
-loading.remove();
-
-},500);
-
-},1000);
-
-});
-
-const mouse=document.getElementById("mouseLight");
-
-document.addEventListener("mousemove",e=>{
-
-mouse.style.left=e.clientX+"px";
-
-mouse.style.top=e.clientY+"px";
-
-});
-
-function copyPhone(){
-
-navigator.clipboard.writeText("0896387698");
-
-alert("Đã sao chép số điện thoại!");
-
-}
-
-const canvas=document.getElementById("particles");
-
-const ctx=canvas.getContext("2d");
-
-function resize(){
-
-canvas.width=window.innerWidth;
-
-canvas.height=window.innerHeight;
-
-}
-
-resize();
-
-window.addEventListener("resize",resize);
-
-const particles=[];
-
-for(let i=0;i<120;i++){
-
-particles.push({
-
-x:Math.random()*canvas.width,
-
-y:Math.random()*canvas.height,
-
-vx:(Math.random()-0.5)*0.5,
-
-vy:(Math.random()-0.5)*0.5,
-
-r:Math.random()*2+1
-
-});
-
-}
-
-function draw(){
-
-ctx.clearRect(0,0,canvas.width,canvas.height);
-
-for(let i=0;i<particles.length;i++){
-
-let p=particles[i];
-
-p.x+=p.vx;
-
-p.y+=p.vy;
-
-if(p.x<0||p.x>canvas.width)p.vx*=-1;
-
-if(p.y<0||p.y>canvas.height)p.vy*=-1;
-
-ctx.beginPath();
-
-ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-
-ctx.fillStyle="#00d4ff";
-
-ctx.fill();
-
-for(let j=i+1;j<particles.length;j++){
-
-let q=particles[j];
-
-let dx=p.x-q.x;
-
-let dy=p.y-q.y;
-
-let d=Math.sqrt(dx*dx+dy*dy);
-
-if(d<120){
-
-ctx.beginPath();
-
-ctx.moveTo(p.x,p.y);
-
-ctx.lineTo(q.x,q.y);
-
-ctx.strokeStyle="rgba(0,212,255,"+(1-d/120)*0.3+")";
-
-ctx.stroke();
-
-}
-
-}
-
-}
-
-requestAnimationFrame(draw);
-
-}
-
-draw();
-
-</script>
-
+    <div id="loading">
+        <div class="loader"></div>
+        <h2 style="margin-top:20px;color:#00d4ff;">GEM STUDIO</h2>
+    </div>
+
+    <canvas id="particles"></canvas>
+    <div id="mouseLight"></div>
+
+    <header>
+        <div class="logo">Lê Quốc Anh <span>(Gem)</span></div>
+        <nav>
+            <a href="#home">Trang chủ</a>
+            <a href="#services">Dịch vụ</a>
+            <a href="#download">Tải Hack</a>
+            <a href="#contact">Liên hệ</a>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="left">
+            <h1>Lê Quốc Anh <span>(Gem)</span></h1>
+            <p>Thiết kế Website • Panel Free Fire • Thiết kế UI • Cài Windows Online</p>
+            <a href="#services" class="btn">Xem dịch vụ</a>
+        </div>
+        <div class="right">
+            <div class="profile">
+                <img src="avatar.jpg" alt="Lê Quốc Anh (Gem)">
+                <h2>Lê Quốc Anh (Gem)</h2>
+                <p>Website Developer<br>Panel Free Fire<br>UI Designer</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="banner">
+        <img src="Banner.jpg" alt="Banner">
+        <div class="banner-content">
+            <h2>GEM STUDIO</h2>
+            <p>Thiết kế Website, Panel Free Fire, UI và hỗ trợ cài Windows Online.</p>
+            <a href="#contact" class="btn">Liên hệ ngay</a>
+        </div>
+    </section>
+
+    <section id="services">
+        <h2 class="title">DỊCH VỤ</h2>
+        <div class="service-grid">
+            <div class="service-card">
+                <i class="fa-solid fa-globe"></i>
+                <h3>Thiết kế Website</h3>
+                <p>Thiết kế Website cá nhân, Landing Page, Portfolio và Website doanh nghiệp với giao diện hiện đại.</p>
+            </div>
+            <div class="service-card">
+                <i class="fa-solid fa-gamepad"></i>
+                <h3>Panel Free Fire</h3>
+                <p>Thiết kế Panel Free Fire giao diện Dark UI, Glass UI đẹp, tối ưu và chuyên nghiệp.</p>
+            </div>
+            <div class="service-card">
+                <i class="fa-solid fa-desktop"></i>
+                <h3>Cài Windows Online</h3>
+                <p>Hỗ trợ cài Windows từ xa, cài Driver, Office, Visual C++ và tối ưu máy tính.</p>
+            </div>
+            <div class="service-card">
+                <i class="fa-solid fa-palette"></i>
+                <h3>Thiết kế UI</h3>
+                <p>Thiết kế giao diện Tool, Website, Launcher và Panel theo yêu cầu.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== MỤC TẢI HACK FREE FIRE PC ========== -->
+    <section id="download">
+        <h2 class="title">TẢI HACK FREE FIRE PC</h2>
+
+        <div class="service-grid">
+            <div class="service-card">
+                <i class="fa-solid fa-crosshairs"></i>
+                <h3>AIMBOT</h3>
+                <p>Tự động ngắm bắn chính xác 100%.</p>
+            </div>
+
+            <div class="service-card">
+                <i class="fa-solid fa-eye"></i>
+                <h3>CHAMS MENU</h3>
+                <p>Hiển thị kẻ địch qua tường với màu sắc nổi bật.</p>
+            </div>
+
+            <div class="service-card">
+                <i class="fa-solid fa-bullseye"></i>
+                <h3>AIM SCOP AWM</h3>
+                <p>Auto aim khi sử dụng súng ngắm AWM.</p>
+            </div>
+
+            <div class="service-card">
+                <i class="fa-solid fa-gun"></i>
+                <h3>ĐỔI SÚNG AWM NHANH</h3>
+                <p>Rút súng AWM siêu tốc, bắn không delay.</p>
+            </div>
+
+            <div class="service-card">
+                <i class="fa-solid fa-shield-alt"></i>
+                <h3>ANTIBAN 100%</h3>
+                <p>An toàn tuyệt đối, không lo bị khóa tài khoản.</p>
+            </div>
+        </div>
+
+        <!-- NÚT TẢI VÀ MUA KEY -->
+        <div class="contact-buttons" style="margin-top: 0; padding-bottom: 20px;">
+            <a href="https://www.mediafire.com/file/6t3wzswu3aselhz/BAKHIAPANEL.rar/file" target="_blank" class="btn" style="font-size: 18px;">
+                <i class="fa-solid fa-download"></i> TẢI NGAY
+            </a>
+            <a href="https://zalo.me/0896387698" target="_blank" class="btn" style="font-size: 18px; background: linear-gradient(90deg, #ff416c, #ff4b2b);">
+                <i class="fa-solid fa-key"></i> MUA KEY (ZALO)
+            </a>
+        </div>
+
+        <!-- ẢNH HACK NGAY DƯỚI 2 NÚT -->
+        <div class="hack-image-section">
+            <img src="hack.jpg" alt="Hack Free Fire PC" onerror="this.style.display='none';">
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2 class="title">LIÊN HỆ</h2>
+        <div class="contact-buttons" style="padding-bottom: 60px;">
+            <a href="https://www.facebook.com/share/18ck9F7PMq/" target="_blank"><i class="fa-brands fa-facebook-f"></i> Facebook</a>
+            <a href="https://zalo.me/0896387698" target="_blank"><i class="fa-solid fa-comments"></i> Zalo</a>
+            <a href="https://www.tiktok.com/@gem2010_0410?_r=1&_t=ZS-98OR5I1GsXk" target="_blank"><i class="fa-brands fa-tiktok"></i> TikTok</a>
+            <button onclick="copyPhone()"><i class="fa-solid fa-phone"></i> Sao chép số điện thoại</button>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Lê Quốc Anh (Gem) | GEM STUDIO</p>
+    </footer>
+
+    <script>
+        const loading = document.getElementById("loading");
+        window.addEventListener("load", () => {
+            setTimeout(() => {
+                loading.style.opacity = "0";
+                setTimeout(() => {
+                    loading.remove();
+                }, 500);
+            }, 1000);
+        });
+
+        const mouse = document.getElementById("mouseLight");
+        document.addEventListener("mousemove", e => {
+            mouse.style.left = e.clientX + "px";
+            mouse.style.top = e.clientY + "px";
+        });
+
+        function copyPhone() {
+            navigator.clipboard.writeText("0896387698");
+            alert("Đã sao chép số điện thoại!");
+        }
+
+        const canvas = document.getElementById("particles");
+        const ctx = canvas.getContext("2d");
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resize();
+        window.addEventListener("resize", resize);
+
+        const particles = [];
+        for (let i = 0; i < 120; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: (Math.random() - 0.5) * 0.5,
+                r: Math.random() * 2 + 1
+            });
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                let p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = "#00d4ff";
+                ctx.fill();
+                for (let j = i + 1; j < particles.length; j++) {
+                    let q = particles[j];
+                    let dx = p.x - q.x;
+                    let dy = p.y - q.y;
+                    let d = Math.sqrt(dx * dx + dy * dy);
+                    if (d < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(q.x, q.y);
+                        ctx.strokeStyle = "rgba(0,212,255," + (1 - d / 120) * 0.3 + ")";
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(draw);
+        }
+        draw();
+    </script>
 </body>
-
 </html>
