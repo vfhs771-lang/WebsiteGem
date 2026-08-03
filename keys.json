@@ -10,5 +10,13 @@
     "device": "multi",
     "hwid": "unlimited",
     "expiry": "2026-08-04"
+  },
+  "BAKHIA-1-P6ME-B4KD-A9K6": {
+    "plan": "premium",
+    "device": "single",
+    "hwid": null,
+    "expiry": "2026-09-02",
+    "created": "2026-08-03",
+    "status": "active"
   }
 }
