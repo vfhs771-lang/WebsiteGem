@@ -37,6 +37,7 @@
         .badge-single { background: #e74c3c; color: #fff; }
         .badge-multi { background: #2ecc71; color: #fff; }
         .logout-btn { float: right; background: transparent; border: 1px solid #e74c3c; color: #e74c3c; padding: 8px 16px; border-radius: 8px; cursor: pointer; margin-bottom: 10px; }
+        #debugLog { background: #000; color: #0f0; padding: 10px; border-radius: 6px; margin-top: 10px; max-height: 200px; overflow-y: auto; font-size: 12px; display: none; }
     </style>
 </head>
 <body>
@@ -47,9 +48,10 @@
         <div class="card" id="configCard">
             <h2>⚙️ Cấu hình GitHub (Lần đầu)</h2>
             <input type="text" id="githubUser" placeholder="Username GitHub" style="width:100%;margin-bottom:10px;">
-            <input type="text" id="githubRepo" placeholder="Tên repo (vd: gemstudio)" style="width:100%;margin-bottom:10px;">
+            <input type="text" id="githubRepo" placeholder="Tên repo (vd: WebsiteGem)" style="width:100%;margin-bottom:10px;">
             <input type="password" id="githubToken" placeholder="Token GitHub (ghp_...)" style="width:100%;margin-bottom:10px;">
             <button class="btn-copy" onclick="saveConfig()">💾 Lưu cấu hình</button>
+            <div id="debugLog"></div>
         </div>
 
         <!-- TẠO KEY -->
@@ -57,7 +59,6 @@
             <button class="logout-btn" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Đổi config</button>
             <h2>⚡ Tạo Key Nhanh</h2>
             
-            <!-- CHỌN LOẠI KEY -->
             <div style="margin-bottom:15px;">
                 <label style="margin-right:15px;font-weight:bold;">🔒 Loại key:</label>
                 <select id="deviceType" style="width:200px;">
@@ -74,7 +75,6 @@
             </div>
             <div id="keyResult"></div>
 
-            <!-- TẠO KEY TÙY CHỈNH -->
             <h2 style="margin-top:20px;">🎨 Tạo Key Tùy Chỉnh</h2>
             <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
                 <input type="text" id="customKeyName" placeholder="Tên key (bỏ trống = tự sinh)" style="flex:1;min-width:200px;">
@@ -87,7 +87,6 @@
             </div>
             <div id="customKeyResult"></div>
             
-            <!-- DANH SÁCH KEY -->
             <h2 style="margin-top:20px;">📋 Danh Sách Key</h2>
             <button class="btn-copy" onclick="loadKeys()" style="margin-bottom:10px;">🔄 Tải lại</button>
             <div id="keyList"></div>
@@ -167,6 +166,41 @@
             showToast('📋 Đã copy: ' + text);
         }
 
+        // ========== GITHUB API HELPERS ==========
+        async function fetchKeys() {
+            const cfg = getConfig();
+            const response = await fetch(getApiUrl(), {
+                headers: { 'Authorization': `token ${cfg.token}` }
+            });
+            if (!response.ok) throw new Error(`HTTP ${response.status} ${response.statusText}`);
+            const data = await response.json();
+            // Decode base64 content
+            const content = atob(data.content);
+            return { keys: JSON.parse(content), sha: data.sha };
+        }
+
+        async function saveKeys(keys, sha) {
+            const cfg = getConfig();
+            const newContent = btoa(JSON.stringify(keys, null, 2));
+            const response = await fetch(getApiUrl(), {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `token ${cfg.token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: 'Update keys',
+                    content: newContent,
+                    sha: sha
+                })
+            });
+            if (!response.ok) {
+                const err = await response.json();
+                throw new Error(`Lỗi lưu: ${err.message} (HTTP ${response.status})`);
+            }
+            return await response.json();
+        }
+
         // ========== TẠO KEY ==========
         async function generateKey(days) {
             const deviceType = document.getElementById('deviceType').value;
@@ -175,22 +209,32 @@
             expiry.setDate(expiry.getDate() + days);
             const expiryStr = expiry.toISOString().split('T')[0];
             
-            await saveKey(key, deviceType, expiryStr);
-            
-            document.getElementById('keyResult').innerHTML = `
-                <div class="key-display">
-                    <p style="color:var(--sub);">🎉 Key mới đã tạo:</p>
-                    <code>${key}</code>
-                    <p class="key-info">
-                        🔒 Loại: <b>${deviceType === 'single' ? '1 Thiết Bị' : 'Nhiều Thiết Bị'}</b> | 
-                        ⏰ Hết hạn: ${expiry.toLocaleDateString('vi-VN')} | 
-                        📅 ${days} ngày
-                    </p>
-                    <button class="btn-copy" onclick="copyText('${key}')">📋 Copy Key</button>
-                </div>`;
-            
-            showToast('✅ Đã tạo key!');
-            loadKeys();
+            try {
+                const { keys, sha } = await fetchKeys();
+                keys[key] = {
+                    plan: 'premium',
+                    device: deviceType,
+                    hwid: (deviceType === 'single') ? null : 'unlimited',
+                    expiry: expiryStr
+                };
+                await saveKeys(keys, sha);
+                
+                document.getElementById('keyResult').innerHTML = `
+                    <div class="key-display">
+                        <p style="color:var(--sub);">🎉 Key mới đã tạo:</p>
+                        <code>${key}</code>
+                        <p class="key-info">
+                            🔒 Loại: <b>${deviceType === 'single' ? '1 Thiết Bị' : 'Nhiều Thiết Bị'}</b> | 
+                            ⏰ Hết hạn: ${expiry.toLocaleDateString('vi-VN')} | 
+                            📅 ${days} ngày
+                        </p>
+                        <button class="btn-copy" onclick="copyText('${key}')">📋 Copy Key</button>
+                    </div>`;
+                showToast('✅ Đã tạo key!');
+                loadKeys();
+            } catch (error) {
+                alert('Lỗi: ' + error.message);
+            }
         }
 
         async function generateCustomKey() {
@@ -207,68 +251,37 @@
             expiry.setDate(expiry.getDate() + days);
             const expiryStr = expiry.toISOString().split('T')[0];
             
-            await saveKey(keyName, deviceType, expiryStr);
-            
-            document.getElementById('customKeyResult').innerHTML = `
-                <div class="key-display">
-                    <code>${keyName}</code>
-                    <p class="key-info">
-                        🔒 Loại: <b>${deviceType === 'single' ? '1 Thiết Bị' : 'Nhiều Thiết Bị'}</b> | 
-                        ⏰ ${expiry.toLocaleDateString('vi-VN')} | 
-                        📅 ${days} ngày
-                    </p>
-                    <button class="btn-copy" onclick="copyText('${keyName}')">📋 Copy Key</button>
-                </div>`;
-            showToast('✅ Đã tạo key!');
-            loadKeys();
-        }
-
-        async function saveKey(key, deviceType, expiry) {
-            const cfg = getConfig();
-            
-            // Tải keys.json hiện tại
-            const response = await fetch(getApiUrl(), {
-                headers: { 'Authorization': `token ${cfg.token}` }
-            });
-            const data = await response.json();
-            const content = atob(data.content);
-            const keys = JSON.parse(content);
-            
-            // Thêm key mới
-            keys[key] = {
-                plan: 'premium',
-                device: deviceType,
-                hwid: (deviceType === 'single') ? null : 'unlimited',
-                expiry: expiry
-            };
-            
-            // Upload lên GitHub
-            const newContent = btoa(JSON.stringify(keys, null, 2));
-            await fetch(getApiUrl(), {
-                method: 'PUT',
-                headers: {
-                    'Authorization': `token ${cfg.token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    message: `Thêm key: ${key} (${deviceType})`,
-                    content: newContent,
-                    sha: data.sha
-                })
-            });
+            try {
+                const { keys, sha } = await fetchKeys();
+                keys[keyName] = {
+                    plan: 'premium',
+                    device: deviceType,
+                    hwid: (deviceType === 'single') ? null : 'unlimited',
+                    expiry: expiryStr
+                };
+                await saveKeys(keys, sha);
+                
+                document.getElementById('customKeyResult').innerHTML = `
+                    <div class="key-display">
+                        <code>${keyName}</code>
+                        <p class="key-info">
+                            🔒 Loại: <b>${deviceType === 'single' ? '1 Thiết Bị' : 'Nhiều Thiết Bị'}</b> | 
+                            ⏰ ${expiry.toLocaleDateString('vi-VN')} | 
+                            📅 ${days} ngày
+                        </p>
+                        <button class="btn-copy" onclick="copyText('${keyName}')">📋 Copy Key</button>
+                    </div>`;
+                showToast('✅ Đã tạo key!');
+                loadKeys();
+            } catch (error) {
+                alert('Lỗi: ' + error.message);
+            }
         }
 
         // ========== LOAD KEYS ==========
         async function loadKeys() {
             try {
-                const cfg = getConfig();
-                const response = await fetch(getApiUrl(), {
-                    headers: { 'Authorization': `token ${cfg.token}` }
-                });
-                const data = await response.json();
-                const content = atob(data.content);
-                const keys = JSON.parse(content);
-                
+                const { keys } = await fetchKeys();
                 let html = '<table><tr><th>Key</th><th>Loại</th><th>HWID</th><th>Hết hạn</th><th>Còn</th><th>Xóa</th><th>Reset</th></tr>';
                 
                 for (const [key, info] of Object.entries(keys)) {
@@ -295,74 +308,38 @@
                 html += '</table>';
                 document.getElementById('keyList').innerHTML = html || '<p>Chưa có key nào.</p>';
             } catch (e) {
-                document.getElementById('keyList').innerHTML = '<p style="color:#e74c3c;">Lỗi tải key</p>';
+                document.getElementById('keyList').innerHTML = '<p style="color:#e74c3c;">Lỗi tải key: ' + e.message + '</p>';
             }
         }
 
         // ========== XÓA KEY ==========
         async function deleteKey(key) {
             if (!confirm('Xóa key: ' + key + '?')) return;
-            
-            const cfg = getConfig();
-            const response = await fetch(getApiUrl(), {
-                headers: { 'Authorization': `token ${cfg.token}` }
-            });
-            const data = await response.json();
-            const content = atob(data.content);
-            const keys = JSON.parse(content);
-            
-            delete keys[key];
-            
-            const newContent = btoa(JSON.stringify(keys, null, 2));
-            await fetch(getApiUrl(), {
-                method: 'PUT',
-                headers: {
-                    'Authorization': `token ${cfg.token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    message: `Xóa key: ${key}`,
-                    content: newContent,
-                    sha: data.sha
-                })
-            });
-            
-            showToast('🗑️ Đã xóa key!');
-            loadKeys();
+            try {
+                const { keys, sha } = await fetchKeys();
+                delete keys[key];
+                await saveKeys(keys, sha);
+                showToast('🗑️ Đã xóa key!');
+                loadKeys();
+            } catch (error) {
+                alert('Lỗi: ' + error.message);
+            }
         }
 
         // ========== RESET HWID ==========
         async function resetHWID(key) {
             if (!confirm('Reset HWID cho key: ' + key + '?\n(Khách có thể dùng máy khác)')) return;
-            
-            const cfg = getConfig();
-            const response = await fetch(getApiUrl(), {
-                headers: { 'Authorization': `token ${cfg.token}` }
-            });
-            const data = await response.json();
-            const content = atob(data.content);
-            const keys = JSON.parse(content);
-            
-            if (keys[key]) {
-                keys[key].hwid = null;
+            try {
+                const { keys, sha } = await fetchKeys();
+                if (keys[key]) {
+                    keys[key].hwid = null;
+                }
+                await saveKeys(keys, sha);
+                showToast('🔄 Đã reset HWID!');
+                loadKeys();
+            } catch (error) {
+                alert('Lỗi: ' + error.message);
             }
-            
-            const newContent = btoa(JSON.stringify(keys, null, 2));
-            await fetch(getApiUrl(), {
-                method: 'PUT',
-                headers: {
-                    'Authorization': `token ${cfg.token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    message: `Reset HWID: ${key}`,
-                    content: newContent,
-                    sha: data.sha
-                })
-            });
-            
-            showToast('🔄 Đã reset HWID!');
-            loadKeys();
         }
     </script>
 </body>
