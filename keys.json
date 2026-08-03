@@ -10,5 +10,11 @@
     "device": "multi",
     "hwid": "unlimited",
     "expiry": "2126-01-01"
+  },
+  "BAKHIA-1-862EWT48EZH": {
+    "plan": "premium",
+    "device": "single",
+    "hwid": null,
+    "expiry": "2026-08-04"
   }
 }
