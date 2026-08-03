@@ -16,5 +16,11 @@
     "device": "single",
     "hwid": null,
     "expiry": "2026-08-04"
+  },
+  "BAKHIA-1-UECRFY52MPQ": {
+    "plan": "premium",
+    "device": "single",
+    "hwid": null,
+    "expiry": "2026-08-04"
   }
 }
