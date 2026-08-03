@@ -6,13 +6,5 @@
     "expiry": "2026-09-02",
     "created": "2026-08-03",
     "status": "active"
-  },
-  "BAKHIA-FCJ7KM871K4": {
-    "plan": "premium",
-    "device": "single",
-    "hwid": null,
-    "expiry": "2099-12-31",
-    "created": "2026-08-03",
-    "status": "active"
   }
 }
