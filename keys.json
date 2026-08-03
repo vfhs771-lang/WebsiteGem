@@ -1,0 +1,14 @@
+{
+  "TEST-KEY-12345": {
+    "plan": "premium",
+    "device": "multi",
+    "hwid": "unlimited",
+    "expiry": "2027-01-01"
+  },
+  "BAKHIA-FREE-KEY": {
+    "plan": "lifetime",
+    "device": "multi",
+    "hwid": "unlimited",
+    "expiry": "2126-01-01"
+  }
+}
