@@ -14,5 +14,13 @@
     "expiry": "2027-08-03",
     "created": "2026-08-03",
     "status": "active"
+  },
+  "BAKHIA-2KLES39R584": {
+    "plan": "premium",
+    "device": "single",
+    "hwid": null,
+    "expiry": "2099-12-31",
+    "created": "2026-08-03",
+    "status": "active"
   }
 }
