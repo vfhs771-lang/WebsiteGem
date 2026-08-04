@@ -6,13 +6,5 @@
     "expiry": "2099-12-31",
     "created": "2026-08-03",
     "status": "active"
-  },
-  "BAKHIA-EKRKPR3198C": {
-    "plan": "premium",
-    "device": "single",
-    "hwid": null,
-    "expiry": "2026-08-05",
-    "created": "2026-08-04",
-    "status": "active"
   }
 }
