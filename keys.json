@@ -6,13 +6,5 @@
     "expiry": "2099-12-31",
     "created": "2026-08-03",
     "status": "active"
-  },
-  "BAKHIA-QO7VCQ1J3P": {
-    "plan": "premium",
-    "device": "single",
-    "hwid": null,
-    "expiry": "2026-08-06",
-    "created": "2026-08-04",
-    "status": "active"
   }
 }
