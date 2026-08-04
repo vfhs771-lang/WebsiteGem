@@ -22,5 +22,13 @@
     "expiry": "2026-08-05",
     "created": "2026-08-04",
     "status": "active"
+  },
+  "BAKHIA-0DZU9ZCAI0O": {
+    "plan": "premium",
+    "device": "single",
+    "hwid": null,
+    "expiry": "2026-08-05",
+    "created": "2026-08-04",
+    "status": "active"
   }
 }
