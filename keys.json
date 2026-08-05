@@ -16,5 +16,14 @@
     "created": "2026-08-05 20:10:00",
     "status": "active",
     "used_count": "5"
+  },
+  "BAKHIA-9DROMU1KPX": {
+    "plan": "premium",
+    "device": "single",
+    "hwid": null,
+    "expiry": "2026-08-06 18:25:34",
+    "created": "2026-08-05 18:25:34",
+    "status": "active",
+    "used_count": "0"
   }
 }
