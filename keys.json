@@ -3,8 +3,8 @@
     "plan": "premium",
     "device": "single",
     "hwid": "DESKTOP-ABC123_UserA",
-    "expiry": "2099-12-31",
-    "created": "2026-08-03",
+    "expiry": "2099-12-31 23:59:59",
+    "created": "2026-08-03 20:10:30",
     "status": "active",
     "used_count": "1"
   },
@@ -12,8 +12,8 @@
     "plan": "premium",
     "device": "single",
     "hwid": null,
-    "expiry": "2099-12-31",
-    "created": "2026-08-04",
+    "expiry": "2099-12-31 23:59:59",
+    "created": "2026-08-04 15:30:00",
     "status": "active",
     "used_count": "0"
   },
@@ -21,9 +21,4 @@
     "plan": "premium",
     "device": "multi",
     "hwid": "unlimited",
-    "expiry": "2026-08-06",
-    "created": "2026-08-05",
-    "status": "active",
-    "used_count": "3"
-  }
-}
+    "expiry": "
