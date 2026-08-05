@@ -39,31 +39,6 @@
 
         .glass { background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
 
-        #loadingOverlay {
-            position: fixed;
-            inset: 0;
-            background: var(--bg);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.5s;
-        }
-        #loadingOverlay.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        .loader-spinner {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: 4px solid rgba(0, 212, 255, 0.1);
-            border-top-color: var(--main);
-            animation: spin 0.8s linear infinite;
-        }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-
         .page { display: none; }
         .page.active { display: flex; }
 
@@ -226,11 +201,8 @@
 </head>
 <body>
     <canvas id="particles"></canvas>
-    <div id="loadingOverlay">
-        <div class="loader-spinner"></div>
-        <p style="margin-top:16px;color:var(--sub);">Đang tải...</p>
-    </div>
 
+    <!-- LOGIN -->
     <div id="loginPage" class="page active">
         <div class="login-container">
             <div class="login-box glass">
@@ -253,6 +225,7 @@
         </div>
     </div>
 
+    <!-- DASHBOARD -->
     <div id="dashboardPage" class="page">
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-brand">
@@ -280,6 +253,7 @@
                 </div>
             </header>
             <div class="page-content">
+                <!-- DASHBOARD -->
                 <section id="page-dashboard" class="page-section active">
                     <div class="stats-grid" id="statsGrid"></div>
                     <div class="chart-container glass">
@@ -287,6 +261,8 @@
                         <canvas id="statsChart"></canvas>
                     </div>
                 </section>
+
+                <!-- KEYS -->
                 <section id="page-keys" class="page-section">
                     <div class="toolbar glass">
                         <div class="toolbar-left">
@@ -323,6 +299,8 @@
                         </div>
                     </div>
                 </section>
+
+                <!-- CREATE -->
                 <section id="page-create" class="page-section">
                     <div class="create-grid">
                         <div class="create-card glass">
@@ -365,6 +343,8 @@
                         </div>
                     </div>
                 </section>
+
+                <!-- LOGS -->
                 <section id="page-logs" class="page-section">
                     <div class="logs-container glass">
                         <h3><i class="fas fa-list"></i> Nhật ký hoạt động</h3>
@@ -375,6 +355,8 @@
                         <div id="logsList" class="logs-list"></div>
                     </div>
                 </section>
+
+                <!-- SETTINGS -->
                 <section id="page-settings" class="page-section">
                     <div class="settings-grid">
                         <div class="settings-card glass">
@@ -403,19 +385,6 @@
     <div id="toastContainer"></div>
 
     <script>
-        // ========== FIX LOADING ==========
-        (function() {
-            const loading = document.getElementById('loadingOverlay');
-            // Ẩn loading sau tối đa 2 giây, bất kể có lỗi gì
-            setTimeout(() => {
-                loading.classList.add('hidden');
-            }, 2000);
-            // Ẩn ngay khi window load
-            window.addEventListener('load', function() {
-                loading.classList.add('hidden');
-            });
-        })();
-
         // ========== PARTICLES ==========
         (function() {
             const canvas = document.getElementById('particles');
@@ -539,7 +508,7 @@
                     if (diff > 0) { active++; if (diff < 604800000) expiring++; } else { expired++; }
                 }
                 document.getElementById('statsGrid').innerHTML = `
-                    <div class="stat-card"><div class="stat-value">${total}</div><div class="stat-label">📌 Tổng</div></div>
+                    <div class="stat-card"><div class="stat-value">${total}</div><div class="stat-label">📌 Tổng Key</div></div>
                     <div class="stat-card"><div class="stat-value">${active}</div><div class="stat-label">🟢 Còn hạn</div></div>
                     <div class="stat-card"><div class="stat-value">${expired}</div><div class="stat-label">🔴 Hết hạn</div></div>
                     <div class="stat-card"><div class="stat-value">${single}</div><div class="stat-label">📱 1 TB</div></div>
@@ -573,24 +542,60 @@
             items.forEach(item => {
                 const remaining = (new Date(item.expiry) - new Date()) / 86400000;
                 const days = Math.floor(remaining);
-                const statusText = days > 7 ? '🟢 Active' : days > 0 ? '🟡 Sắp hết' : '🔴 Hết hạn';
+                const isMulti = item.device === 'multi';
+                const hasHWID = item.hwid && item.hwid !== 'null' && item.hwid !== 'unlimited';
+                const usedCount = parseInt(item.used_count) || 0;
+                
+                let statusText, statusClass;
+                if (days <= 0) {
+                    statusText = '🔴 Hết hạn';
+                    statusClass = 'status-expired';
+                } else if (isMulti) {
+                    statusText = usedCount > 0 ? `🟢 ${usedCount} TB` : '🟢 Multi';
+                    statusClass = 'status-active';
+                } else if (hasHWID) {
+                    statusText = '🟢 Đã dùng';
+                    statusClass = 'status-active';
+                } else if (days <= 3) {
+                    statusText = '🟡 Sắp hết';
+                    statusClass = 'status-expiring';
+                } else {
+                    statusText = '⚪ Chưa dùng';
+                    statusClass = 'status-unused';
+                }
+
+                let hwidDisplay;
+                if (isMulti) {
+                    hwidDisplay = `♾️ ${usedCount} thiết bị`;
+                } else if (hasHWID) {
+                    hwidDisplay = `🔒 ${item.hwid.substring(0, 12)}...`;
+                } else {
+                    hwidDisplay = '🔓 Chưa dùng';
+                }
+
                 html += `<tr>
                     <td><span class="key-code" onclick="copyToClipboard('${item.key}')">${item.key}</span></td>
                     <td>${item.plan||'premium'}</td>
-                    <td>${item.device==='single'?'📱 1 TB':'💻 Nhiều TB'}</td>
-                    <td>${item.device==='single'?(item.hwid&&item.hwid!=='null'?'🔒 Đã khóa':'🔓 Chưa dùng'):'♾️'}</td>
+                    <td>${isMulti?'💻 Nhiều TB':'📱 1 TB'}</td>
+                    <td title="${item.hwid||''}">${hwidDisplay}</td>
                     <td>${item.created||''}</td>
                     <td>${item.expiry}</td>
-                    <td><span class="status-badge ${days>7?'status-active':days>0?'status-expiring':'status-expired'}">${statusText}</span></td>
+                    <td><span class="status-badge ${statusClass}">${statusText}</span></td>
                     <td>
                         <button class="btn-action" onclick="copyToClipboard('${item.key}')"><i class="fas fa-copy"></i></button>
                         <button class="btn-action" onclick="extendKey('${item.key}')"><i class="fas fa-clock"></i></button>
-                        ${item.device==='single'?`<button class="btn-action" onclick="resetHWID('${item.key}')"><i class="fas fa-sync-alt"></i></button>`:''}
+                        ${!isMulti ? `
+                            <button class="btn-action" onclick="updateHWIDManually('${item.key}')" title="Cập nhật HWID"><i class="fas fa-pen"></i></button>
+                            <button class="btn-action" onclick="markKeyUsed('${item.key}')" title="Đánh dấu đã dùng"><i class="fas fa-check"></i></button>
+                            <button class="btn-action" onclick="resetHWID('${item.key}')" title="Reset HWID"><i class="fas fa-sync-alt"></i></button>
+                        ` : `
+                            <button class="btn-action" onclick="markKeyUsed('${item.key}')" title="Tăng số thiết bị"><i class="fas fa-plus-circle"></i></button>
+                        `}
                         <button class="btn-action danger" onclick="deleteKey('${item.key}')"><i class="fas fa-trash"></i></button>
                     </td></tr>`;
             });
             document.getElementById('keysTableBody').innerHTML = html || '<tr><td colspan="8">Không có key nào</td></tr>';
-            document.getElementById('keysCount').textContent = `Hiển thị 1-${items.length} / ${total}`;
+            document.getElementById('keysCount').textContent = `Hiển thị 1-${Math.min(items.length,10)} / ${total}`;
         }
 
         // ========== CRUD ==========
@@ -600,62 +605,278 @@
             const expiry = new Date();
             if (days === 0) expiry.setFullYear(2099, 11, 31); else expiry.setDate(expiry.getDate() + days);
             const { keys, sha } = await fetchKeys(true);
-            keys[key] = { plan:'premium', device, hwid: device==='single'?null:'unlimited', expiry: expiry.toISOString().split('T')[0], created: new Date().toISOString().split('T')[0], status:'active' };
+            keys[key] = { 
+                plan:'premium', 
+                device, 
+                hwid: device==='single'?null:'unlimited', 
+                expiry: expiry.toISOString().split('T')[0], 
+                created: new Date().toISOString().split('T')[0], 
+                status:'active',
+                used_count: '0'
+            };
             await saveKeys(keys, sha);
             document.getElementById('quickResult').innerHTML = `<div class="key-item"><code>${key}</code> ${days===0?'♾️':days+' ngày'} <button class="btn-action" onclick="copyToClipboard('${key}')"><i class="fas fa-copy"></i></button></div>`;
             loadKeys();
+            showToast('✅ Đã tạo key: ' + key, 'success');
+            addLog('CREATE_KEY', key + ' - ' + days + ' ngày');
         }
+
         async function batchCreate() {
             const count = parseInt(document.getElementById('batchCount').value) || 10;
             const days = parseInt(document.getElementById('batchDays').value) || 30;
             const device = document.querySelector('input[name="deviceType"]:checked').value;
             const { keys, sha } = await fetchKeys(true);
+            let created = [];
             for (let i=0; i<count; i++) {
                 const key = 'BAKHIA-' + Math.random().toString(36).substring(2, 14).toUpperCase();
                 const expiry = new Date(); expiry.setDate(expiry.getDate() + days);
-                keys[key] = { plan:'premium', device, hwid: device==='single'?null:'unlimited', expiry: expiry.toISOString().split('T')[0], created: new Date().toISOString().split('T')[0], status:'active' };
+                keys[key] = { plan:'premium', device, hwid: device==='single'?null:'unlimited', expiry: expiry.toISOString().split('T')[0], created: new Date().toISOString().split('T')[0], status:'active', used_count:'0' };
+                created.push(key);
             }
             await saveKeys(keys, sha);
-            document.getElementById('batchResult').innerHTML = `<div style="color:var(--main);">✅ Đã tạo ${count} key</div>`;
+            document.getElementById('batchResult').innerHTML = `<div style="color:var(--main);">✅ Đã tạo ${count} key: ${created.join(', ')}</div>`;
             loadKeys();
+            showToast('✅ Đã tạo ' + count + ' key', 'success');
+            addLog('BATCH_CREATE', count + ' key - ' + days + ' ngày');
         }
+
         async function customCreate() {
             const keyName = document.getElementById('customKeyName').value.trim() || 'BAKHIA-' + Math.random().toString(36).substring(2,10).toUpperCase();
             const days = parseInt(document.getElementById('customDays').value)||30;
             const device = document.getElementById('customDeviceType').value;
             const expiry = new Date(); expiry.setDate(expiry.getDate() + days);
             const { keys, sha } = await fetchKeys(true);
-            keys[keyName] = { plan:'premium', device, hwid: device==='single'?null:'unlimited', expiry: expiry.toISOString().split('T')[0], created: new Date().toISOString().split('T')[0], status:'active' };
+            keys[keyName] = { plan:'premium', device, hwid: device==='single'?null:'unlimited', expiry: expiry.toISOString().split('T')[0], created: new Date().toISOString().split('T')[0], status:'active', used_count:'0' };
             await saveKeys(keys, sha);
             document.getElementById('customResult').innerHTML = `<div class="key-item"><code>${keyName}</code> ${days} ngày <button class="btn-action" onclick="copyToClipboard('${keyName}')"><i class="fas fa-copy"></i></button></div>`;
             loadKeys();
+            showToast('✅ Đã tạo key: ' + keyName, 'success');
+            addLog('CUSTOM_CREATE', keyName + ' - ' + days + ' ngày');
         }
-        async function deleteKey(key) { if(!confirm('Xóa?'))return; const {keys,sha}=await fetchKeys(true); delete keys[key]; await saveKeys(keys,sha); loadKeys(); }
-        async function resetHWID(key) { if(!confirm('Reset HWID?'))return; const {keys,sha}=await fetchKeys(true); if(keys[key]){keys[key].hwid=null; keys[key].status='active'; await saveKeys(keys,sha); loadKeys();} }
-        async function extendKey(key) { const days = prompt('Số ngày gia hạn:','30'); if(!days) return; const {keys,sha}=await fetchKeys(true); if(keys[key]){ const exp = new Date(keys[key].expiry); if(isNaN(exp)) return; exp.setDate(exp.getDate()+parseInt(days)); keys[key].expiry=exp.toISOString().split('T')[0]; await saveKeys(keys,sha); loadKeys(); } }
 
-        function refreshKeys() { localStorage.removeItem(CACHE_KEY); loadKeys(); }
-        function exportKeys(fmt) { /* giữ nguyên */ }
+        async function deleteKey(key) { 
+            if(!confirm('Xóa key "'+key+'"?'))return; 
+            try {
+                const {keys,sha}=await fetchKeys(true); 
+                delete keys[key]; 
+                await saveKeys(keys,sha); 
+                loadKeys(); 
+                showToast('🗑️ Đã xóa key: ' + key, 'warning');
+                addLog('DELETE_KEY', key);
+            } catch(e) { showToast('❌ Lỗi: ' + e.message, 'error'); }
+        }
+        
+        async function resetHWID(key) { 
+            if(!confirm('Reset HWID cho key "'+key+'"?'))return; 
+            try {
+                const {keys,sha}=await fetchKeys(true); 
+                if(keys[key]){
+                    keys[key].hwid=null; 
+                    keys[key].status='active'; 
+                    keys[key].used_count='0';
+                    await saveKeys(keys,sha); 
+                    loadKeys(); 
+                    showToast('🔄 Đã reset HWID cho ' + key, 'info');
+                    addLog('RESET_HWID', key);
+                }
+            } catch(e) { showToast('❌ Lỗi: ' + e.message, 'error'); }
+        }
+        
+        async function extendKey(key) { 
+            const days = prompt('Số ngày gia hạn (nhập số âm để giảm):','30'); 
+            if(!days) return; 
+            try {
+                const {keys,sha}=await fetchKeys(true); 
+                if(keys[key]){ 
+                    const exp = new Date(keys[key].expiry); 
+                    if(isNaN(exp)) return; 
+                    exp.setDate(exp.getDate()+parseInt(days)); 
+                    keys[key].expiry=exp.toISOString().split('T')[0]; 
+                    await saveKeys(keys,sha); 
+                    loadKeys(); 
+                    showToast('⏰ Đã gia hạn ' + key + ' thêm ' + days + ' ngày', 'success');
+                    addLog('EXTEND_KEY', key + ' +' + days + ' ngày');
+                }
+            } catch(e) { showToast('❌ Lỗi: ' + e.message, 'error'); }
+        }
+
+        async function markKeyUsed(key) {
+            if (!confirm(`Đánh dấu key "${key}" đã được sử dụng?`)) return;
+            try {
+                const { keys, sha } = await fetchKeys(true);
+                if (!keys[key]) { showToast('❌ Key không tồn tại!', 'error'); return; }
+                
+                if (keys[key].device === 'multi') {
+                    let count = parseInt(keys[key].used_count) || 0;
+                    count++;
+                    keys[key].used_count = count.toString();
+                    keys[key].hwid = 'unlimited';
+                    showToast(`✅ Đã tăng số thiết bị cho ${key} lên ${count}`, 'success');
+                } else {
+                    if (!keys[key].hwid || keys[key].hwid === 'null') {
+                        keys[key].hwid = 'USED-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+                    }
+                    showToast(`✅ Đã đánh dấu ${key} đã dùng!`, 'success');
+                }
+                keys[key].status = 'active';
+                await saveKeys(keys, sha);
+                loadKeys();
+                addLog('MARK_USED', `Key: ${key} - Device: ${keys[key].device}`);
+            } catch (e) {
+                showToast('❌ Lỗi: ' + e.message, 'error');
+            }
+        }
+
+        async function updateHWIDManually(key) {
+            const hwid = prompt('Nhập HWID mới cho key (để trống để tạo tự động):', '');
+            if (hwid === null) return;
+            try {
+                const { keys, sha } = await fetchKeys(true);
+                if (!keys[key]) { showToast('❌ Key không tồn tại!', 'error'); return; }
+                keys[key].hwid = hwid.trim() || ('HWID-' + Math.random().toString(36).substring(2, 12).toUpperCase());
+                keys[key].status = 'active';
+                await saveKeys(keys, sha);
+                loadKeys();
+                showToast(`✅ Đã cập nhật HWID cho ${key}!`, 'success');
+                addLog('UPDATE_HWID', `Key: ${key} - HWID: ${keys[key].hwid}`);
+            } catch (e) { showToast('❌ Lỗi: ' + e.message, 'error'); }
+        }
+
+        function refreshKeys() { localStorage.removeItem(CACHE_KEY); loadKeys(); showToast('🔄 Đã làm mới danh sách key', 'info'); }
+        
+        function exportKeys(fmt) {
+            if (allKeys.length === 0) return showToast('⚠️ Không có key để xuất', 'warning');
+            let content = '';
+            if (fmt === 'txt') content = allKeys.map(k => k.key).join('\n');
+            else if (fmt === 'json') content = JSON.stringify(allKeys, null, 2);
+            else if (fmt === 'csv') {
+                const headers = ['Key','Plan','Device','HWID','Created','Expiry','Status','UsedCount'];
+                const rows = allKeys.map(k => [k.key, k.plan, k.device, k.hwid||'', k.created||'', k.expiry, k.status, k.used_count||'0']);
+                content = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+            }
+            const blob = new Blob([content], {type:'text/plain'});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `keys.${fmt}`;
+            a.click();
+            showToast(`📥 Đã xuất file keys.${fmt}`, 'success');
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast(`📋 Đã copy: ${text}`, 'success');
+            }).catch(() => {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                ta.remove();
+                showToast(`📋 Đã copy: ${text}`, 'success');
+            });
+        }
 
         // ========== LOGS & SETTINGS ==========
-        function renderLogs() { const logs = getLogs(); document.getElementById('logsList').innerHTML = logs.slice(0,50).map(l => `<div class="log-item"><span class="log-time">${new Date(l.time).toLocaleString('vi-VN')}</span> ${l.action} ${l.details||''}</div>`).join('') || '<p>Chưa có hoạt động</p>'; }
-        function clearLogs() { localStorage.removeItem(LOGS_KEY); renderLogs(); }
-        function changePassword() { const p = document.getElementById('newPassword').value.trim(); if(p.length<6) return; const cfg = getConfig(); cfg.password = p; saveConfig(cfg); showToast('✅ Đã đổi mật khẩu','success'); }
-        function saveGithubConfig() { const u=document.getElementById('githubUser').value, r=document.getElementById('githubRepo').value, t=document.getElementById('githubToken').value; if(!u||!r||!t) return; const cfg=getConfig(); cfg.githubUser=u; cfg.githubRepo=r; cfg.githubToken=t; saveConfig(cfg); showToast('✅ Đã lưu','success'); }
-        function backupData() { const data = { keys: allKeys, logs: getLogs(), config: getConfig() }; const blob = new Blob([JSON.stringify(data)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='backup.json'; a.click(); }
+        function renderLogs() { 
+            const logs = getLogs(); 
+            document.getElementById('logsList').innerHTML = logs.slice(0,50).map(l => 
+                `<div class="log-item"><span class="log-time">${new Date(l.time).toLocaleString('vi-VN')}</span> ${l.action} ${l.details||''}</div>`
+            ).join('') || '<p>Chưa có hoạt động</p>'; 
+        }
+        
+        function clearLogs() { 
+            if(!confirm('Xóa toàn bộ nhật ký?')) return;
+            localStorage.removeItem(LOGS_KEY); 
+            renderLogs(); 
+            showToast('🗑️ Đã xóa nhật ký', 'warning'); 
+        }
+        
+        function exportLogs() { 
+            const logs = getLogs(); 
+            if(logs.length===0) return showToast('⚠️ Không có log để xuất', 'warning');
+            const blob = new Blob([logs.map(l=>`${l.time} | ${l.action} ${l.details||''}`).join('\n')], {type:'text/plain'}); 
+            const a=document.createElement('a');
+            a.href=URL.createObjectURL(blob);
+            a.download='logs.txt';
+            a.click();
+            showToast('📥 Đã xuất logs.txt', 'success');
+        }
+        
+        function changePassword() { 
+            const p = document.getElementById('newPassword').value.trim(); 
+            if(p.length<6) return showToast('❌ Mật khẩu phải có ít nhất 6 ký tự','error'); 
+            const cfg = getConfig(); 
+            cfg.password=p; 
+            saveConfig(cfg); 
+            showToast('✅ Đã đổi mật khẩu','success');
+            addLog('CHANGE_PASSWORD', 'Đã đổi mật khẩu');
+        }
+        
+        function saveGithubConfig() { 
+            const u=document.getElementById('githubUser').value.trim();
+            const r=document.getElementById('githubRepo').value.trim();
+            const t=document.getElementById('githubToken').value.trim();
+            if(!u||!r||!t) return showToast('⚠️ Vui lòng nhập đầy đủ thông tin','warning'); 
+            const cfg=getConfig(); 
+            cfg.githubUser=u; 
+            cfg.githubRepo=r; 
+            cfg.githubToken=t; 
+            saveConfig(cfg); 
+            showToast('✅ Đã lưu cấu hình GitHub','success');
+            addLog('SAVE_GITHUB', `User: ${u}, Repo: ${r}`);
+            localStorage.removeItem(CACHE_KEY);
+        }
+        
+        function backupData() { 
+            const data={keys:allKeys, logs:getLogs(), config:getConfig()}; 
+            const blob=new Blob([JSON.stringify(data, null, 2)], {type:'application/json'}); 
+            const a=document.createElement('a'); 
+            a.href=URL.createObjectURL(blob); 
+            a.download=`backup_${new Date().toISOString().slice(0,10)}.json`; 
+            a.click(); 
+            showToast('📥 Đã backup dữ liệu', 'success');
+            addLog('BACKUP_DATA', '');
+        }
+        
+        function restoreData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (data.keys && data.logs) {
+                        localStorage.setItem(LOGS_KEY, JSON.stringify(data.logs));
+                        const { sha } = await fetchKeys(true);
+                        const keysObj = {};
+                        data.keys.forEach(item => {
+                            keysObj[item.key] = {
+                                plan: item.plan || 'premium',
+                                device: item.device || 'single',
+                                hwid: item.hwid || null,
+                                expiry: item.expiry || '',
+                                created: item.created || '',
+                                status: item.status || 'active',
+                                used_count: item.used_count || '0'
+                            };
+                        });
+                        await saveKeys(keysObj, sha);
+                        loadKeys();
+                        renderLogs();
+                        showToast('✅ Đã restore dữ liệu thành công!', 'success');
+                        addLog('RESTORE_DATA', 'Đã restore từ file backup');
+                    } else {
+                        showToast('❌ File không hợp lệ', 'error');
+                    }
+                } catch (err) {
+                    showToast('❌ Lỗi restore: ' + err.message, 'error');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
 
-        // ========== INIT ==========
-        document.addEventListener('DOMContentLoaded', function() {
-            // Không tự động đăng nhập
-            localStorage.removeItem('gem_license_session');
-            // Ẩn loading (đã có setTimeout ở trên)
-            const cfg = getConfig();
-            document.getElementById('githubUser').value = cfg.githubUser||'';
-            document.getElementById('githubRepo').value = cfg.githubRepo||'';
-            document.getElementById('githubToken').value = cfg.githubToken||'';
-        });
-
-        // Sidebar toggle & navigation
+        // ========== NAVIGATION ==========
         document.getElementById('toggleSidebar').addEventListener('click', ()=> document.getElementById('sidebar').classList.toggle('open'));
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', function(e) {
@@ -671,6 +892,30 @@
                 if(this.dataset.page==='logs') renderLogs();
             });
         });
+
+        // ========== FULLSCREEN ==========
+        document.getElementById('fullscreenBtn').addEventListener('click', () => {
+            if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+            else document.exitFullscreen();
+        });
+
+        // ========== FILTERS ==========
+        document.getElementById('searchKey').addEventListener('input', renderKeys);
+        document.getElementById('filterStatus').addEventListener('change', renderKeys);
+        document.getElementById('filterDevice').addEventListener('change', renderKeys);
+
+        // ========== INIT ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            // Không tự động đăng nhập
+            localStorage.removeItem('gem_license_session');
+            const cfg = getConfig();
+            document.getElementById('githubUser').value = cfg.githubUser||'';
+            document.getElementById('githubRepo').value = cfg.githubRepo||'';
+            document.getElementById('githubToken').value = cfg.githubToken||'';
+        });
+
+        // ========== AUTO SYNC HWID ==========
+        // Có thể thêm auto sync nếu cần
     </script>
 </body>
 </html>
