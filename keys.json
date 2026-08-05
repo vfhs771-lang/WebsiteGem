@@ -2,10 +2,11 @@
   "BAKHIA-DX2SPLOK1WS": {
     "plan": "premium",
     "device": "single",
-    "hwid": null,
+    "hwid": "DESKTOP-ABC123_UserA",
     "expiry": "2099-12-31",
     "created": "2026-08-03",
-    "status": "active"
+    "status": "active",
+    "used_count": "1"
   },
   "BAKHIA-8IZD5NEOZH4": {
     "plan": "premium",
@@ -13,14 +14,16 @@
     "hwid": null,
     "expiry": "2099-12-31",
     "created": "2026-08-04",
-    "status": "active"
+    "status": "active",
+    "used_count": "0"
   },
   "BAKHIA-PFE6AIO6JV": {
     "plan": "premium",
-    "device": "single",
-    "hwid": null,
+    "device": "multi",
+    "hwid": "unlimited",
     "expiry": "2026-08-06",
     "created": "2026-08-05",
-    "status": "active"
+    "status": "active",
+    "used_count": "3"
   }
 }
