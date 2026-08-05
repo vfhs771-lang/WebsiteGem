@@ -269,7 +269,7 @@
                             <input type="text" id="searchKey" placeholder="🔍 Tìm key..." class="search-input">
                             <select id="filterStatus" class="filter-select">
                                 <option value="all">📌 Tất cả</option>
-                                <option value="active">🟢 Active</option>
+                                <option value="active">🟢 Còn hạn</option>
                                 <option value="expiring">🟡 Sắp hết</option>
                                 <option value="expired">🔴 Hết hạn</option>
                                 <option value="unused">⚪ Chưa dùng</option>
@@ -499,13 +499,23 @@
             try {
                 const { keys } = await fetchKeys();
                 let total=0, active=0, expired=0, expiring=0, single=0, multi=0, used=0, unused=0;
+                const now = new Date();
                 for (const [k, info] of Object.entries(keys)) {
                     total++;
-                    const expiry = new Date(info.expiry);
-                    const diff = expiry - new Date();
+                    const expiryDate = new Date(info.expiry);
+                    const diffMs = expiryDate - now;
+                    
                     if (info.device === 'single') single++; else multi++;
                     if (info.hwid && info.hwid !== 'null' && info.hwid !== 'unlimited') used++; else unused++;
-                    if (diff > 0) { active++; if (diff < 604800000) expiring++; } else { expired++; }
+                    
+                    if (diffMs < 0) {
+                        expired++;
+                    } else if (diffMs < 3 * 24 * 60 * 60 * 1000) {
+                        expiring++;
+                        active++;
+                    } else {
+                        active++;
+                    }
                 }
                 document.getElementById('statsGrid').innerHTML = `
                     <div class="stat-card"><div class="stat-value">${total}</div><div class="stat-label">📌 Tổng Key</div></div>
@@ -540,14 +550,19 @@
             const items = filtered.slice(0, 10);
             let html = '';
             items.forEach(item => {
-                const remaining = (new Date(item.expiry) - new Date()) / 86400000;
-                const days = Math.floor(remaining);
+                const now = new Date();
+                const expiryDate = new Date(item.expiry);
+                const diffMs = expiryDate - now;
+                const daysRemaining = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+                const hoursRemaining = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutesRemaining = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+                
                 const isMulti = item.device === 'multi';
                 const hasHWID = item.hwid && item.hwid !== 'null' && item.hwid !== 'unlimited';
                 const usedCount = parseInt(item.used_count) || 0;
                 
                 let statusText, statusClass;
-                if (days <= 0) {
+                if (diffMs < 0) {
                     statusText = '🔴 Hết hạn';
                     statusClass = 'status-expired';
                 } else if (isMulti) {
@@ -556,12 +571,15 @@
                 } else if (hasHWID) {
                     statusText = '🟢 Đã dùng';
                     statusClass = 'status-active';
-                } else if (days <= 3) {
-                    statusText = '🟡 Sắp hết';
+                } else if (daysRemaining <= 0 && diffMs > 0) {
+                    statusText = `🟡 Còn ${hoursRemaining}h${minutesRemaining}m`;
+                    statusClass = 'status-expiring';
+                } else if (daysRemaining <= 3) {
+                    statusText = `🟡 Còn ${daysRemaining} ngày ${hoursRemaining}h`;
                     statusClass = 'status-expiring';
                 } else {
-                    statusText = '⚪ Chưa dùng';
-                    statusClass = 'status-unused';
+                    statusText = `🟢 Còn ${daysRemaining} ngày`;
+                    statusClass = 'status-active';
                 }
 
                 let hwidDisplay;
@@ -573,13 +591,15 @@
                     hwidDisplay = '🔓 Chưa dùng';
                 }
 
+                const displayExpiry = item.expiry.replace(' ', ' - ');
+
                 html += `<tr>
                     <td><span class="key-code" onclick="copyToClipboard('${item.key}')">${item.key}</span></td>
                     <td>${item.plan||'premium'}</td>
                     <td>${isMulti?'💻 Nhiều TB':'📱 1 TB'}</td>
                     <td title="${item.hwid||''}">${hwidDisplay}</td>
-                    <td>${item.created||''}</td>
-                    <td>${item.expiry}</td>
+                    <td style="font-size:11px;">${item.created||''}</td>
+                    <td style="font-size:11px;">${displayExpiry}</td>
                     <td><span class="status-badge ${statusClass}">${statusText}</span></td>
                     <td>
                         <button class="btn-action" onclick="copyToClipboard('${item.key}')"><i class="fas fa-copy"></i></button>
@@ -602,23 +622,46 @@
         async function quickCreate(days) {
             const device = document.querySelector('input[name="deviceType"]:checked').value;
             const key = 'BAKHIA-' + Math.random().toString(36).substring(2, 14).toUpperCase();
-            const expiry = new Date();
-            if (days === 0) expiry.setFullYear(2099, 11, 31); else expiry.setDate(expiry.getDate() + days);
+            
+            const now = new Date();
+            let expiry;
+            if (days === 0) {
+                expiry = new Date(now.getFullYear() + 100, now.getMonth(), now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
+            } else {
+                expiry = new Date(now.getTime() + days * 24 * 60 * 60 * 1000);
+            }
+            
+            const expiryStr = expiry.getFullYear() + '-' + 
+                              String(expiry.getMonth() + 1).padStart(2, '0') + '-' + 
+                              String(expiry.getDate()).padStart(2, '0') + ' ' +
+                              String(expiry.getHours()).padStart(2, '0') + ':' +
+                              String(expiry.getMinutes()).padStart(2, '0') + ':' +
+                              String(expiry.getSeconds()).padStart(2, '0');
+            
+            const createdStr = now.getFullYear() + '-' + 
+                               String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+                               String(now.getDate()).padStart(2, '0') + ' ' +
+                               String(now.getHours()).padStart(2, '0') + ':' +
+                               String(now.getMinutes()).padStart(2, '0') + ':' +
+                               String(now.getSeconds()).padStart(2, '0');
+
             const { keys, sha } = await fetchKeys(true);
             keys[key] = { 
                 plan:'premium', 
                 device, 
                 hwid: device==='single'?null:'unlimited', 
-                expiry: expiry.toISOString().split('T')[0], 
-                created: new Date().toISOString().split('T')[0], 
+                expiry: expiryStr, 
+                created: createdStr, 
                 status:'active',
                 used_count: '0'
             };
             await saveKeys(keys, sha);
-            document.getElementById('quickResult').innerHTML = `<div class="key-item"><code>${key}</code> ${days===0?'♾️':days+' ngày'} <button class="btn-action" onclick="copyToClipboard('${key}')"><i class="fas fa-copy"></i></button></div>`;
+            
+            const daysDisplay = days === 0 ? '♾️ Lifetime' : days + ' ngày';
+            document.getElementById('quickResult').innerHTML = `<div class="key-item"><code>${key}</code> ${daysDisplay} <span style="font-size:11px;color:var(--sub);">Hết: ${expiryStr}</span> <button class="btn-action" onclick="copyToClipboard('${key}')"><i class="fas fa-copy"></i></button></div>`;
             loadKeys();
             showToast('✅ Đã tạo key: ' + key, 'success');
-            addLog('CREATE_KEY', key + ' - ' + days + ' ngày');
+            addLog('CREATE_KEY', key + ' - ' + daysDisplay);
         }
 
         async function batchCreate() {
@@ -627,10 +670,24 @@
             const device = document.querySelector('input[name="deviceType"]:checked').value;
             const { keys, sha } = await fetchKeys(true);
             let created = [];
+            const now = new Date();
+            
             for (let i=0; i<count; i++) {
                 const key = 'BAKHIA-' + Math.random().toString(36).substring(2, 14).toUpperCase();
-                const expiry = new Date(); expiry.setDate(expiry.getDate() + days);
-                keys[key] = { plan:'premium', device, hwid: device==='single'?null:'unlimited', expiry: expiry.toISOString().split('T')[0], created: new Date().toISOString().split('T')[0], status:'active', used_count:'0' };
+                const expiry = new Date(now.getTime() + days * 24 * 60 * 60 * 1000);
+                const expiryStr = expiry.getFullYear() + '-' + 
+                                  String(expiry.getMonth() + 1).padStart(2, '0') + '-' + 
+                                  String(expiry.getDate()).padStart(2, '0') + ' ' +
+                                  String(expiry.getHours()).padStart(2, '0') + ':' +
+                                  String(expiry.getMinutes()).padStart(2, '0') + ':' +
+                                  String(expiry.getSeconds()).padStart(2, '0');
+                const createdStr = now.getFullYear() + '-' + 
+                                   String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+                                   String(now.getDate()).padStart(2, '0') + ' ' +
+                                   String(now.getHours()).padStart(2, '0') + ':' +
+                                   String(now.getMinutes()).padStart(2, '0') + ':' +
+                                   String(now.getSeconds()).padStart(2, '0');
+                keys[key] = { plan:'premium', device, hwid: device==='single'?null:'unlimited', expiry: expiryStr, created: createdStr, status:'active', used_count:'0' };
                 created.push(key);
             }
             await saveKeys(keys, sha);
@@ -644,11 +701,24 @@
             const keyName = document.getElementById('customKeyName').value.trim() || 'BAKHIA-' + Math.random().toString(36).substring(2,10).toUpperCase();
             const days = parseInt(document.getElementById('customDays').value)||30;
             const device = document.getElementById('customDeviceType').value;
-            const expiry = new Date(); expiry.setDate(expiry.getDate() + days);
+            const now = new Date();
+            const expiry = new Date(now.getTime() + days * 24 * 60 * 60 * 1000);
+            const expiryStr = expiry.getFullYear() + '-' + 
+                              String(expiry.getMonth() + 1).padStart(2, '0') + '-' + 
+                              String(expiry.getDate()).padStart(2, '0') + ' ' +
+                              String(expiry.getHours()).padStart(2, '0') + ':' +
+                              String(expiry.getMinutes()).padStart(2, '0') + ':' +
+                              String(expiry.getSeconds()).padStart(2, '0');
+            const createdStr = now.getFullYear() + '-' + 
+                               String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+                               String(now.getDate()).padStart(2, '0') + ' ' +
+                               String(now.getHours()).padStart(2, '0') + ':' +
+                               String(now.getMinutes()).padStart(2, '0') + ':' +
+                               String(now.getSeconds()).padStart(2, '0');
             const { keys, sha } = await fetchKeys(true);
-            keys[keyName] = { plan:'premium', device, hwid: device==='single'?null:'unlimited', expiry: expiry.toISOString().split('T')[0], created: new Date().toISOString().split('T')[0], status:'active', used_count:'0' };
+            keys[keyName] = { plan:'premium', device, hwid: device==='single'?null:'unlimited', expiry: expiryStr, created: createdStr, status:'active', used_count:'0' };
             await saveKeys(keys, sha);
-            document.getElementById('customResult').innerHTML = `<div class="key-item"><code>${keyName}</code> ${days} ngày <button class="btn-action" onclick="copyToClipboard('${keyName}')"><i class="fas fa-copy"></i></button></div>`;
+            document.getElementById('customResult').innerHTML = `<div class="key-item"><code>${keyName}</code> ${days} ngày <span style="font-size:11px;color:var(--sub);">Hết: ${expiryStr}</span> <button class="btn-action" onclick="copyToClipboard('${keyName}')"><i class="fas fa-copy"></i></button></div>`;
             loadKeys();
             showToast('✅ Đã tạo key: ' + keyName, 'success');
             addLog('CUSTOM_CREATE', keyName + ' - ' + days + ' ngày');
@@ -682,22 +752,30 @@
             } catch(e) { showToast('❌ Lỗi: ' + e.message, 'error'); }
         }
         
-        async function extendKey(key) { 
-            const days = prompt('Số ngày gia hạn (nhập số âm để giảm):','30'); 
-            if(!days) return; 
+        async function extendKey(key) {
+            const days = prompt('Số ngày gia hạn (nhập số âm để giảm):', '30');
+            if (!days) return;
             try {
-                const {keys,sha}=await fetchKeys(true); 
-                if(keys[key]){ 
-                    const exp = new Date(keys[key].expiry); 
-                    if(isNaN(exp)) return; 
-                    exp.setDate(exp.getDate()+parseInt(days)); 
-                    keys[key].expiry=exp.toISOString().split('T')[0]; 
-                    await saveKeys(keys,sha); 
-                    loadKeys(); 
-                    showToast('⏰ Đã gia hạn ' + key + ' thêm ' + days + ' ngày', 'success');
+                const { keys, sha } = await fetchKeys(true);
+                if (keys[key]) {
+                    const currentExpiry = new Date(keys[key].expiry);
+                    if (isNaN(currentExpiry)) return;
+                    const newExpiry = new Date(currentExpiry.getTime() + parseInt(days) * 24 * 60 * 60 * 1000);
+                    const expiryStr = newExpiry.getFullYear() + '-' + 
+                                      String(newExpiry.getMonth() + 1).padStart(2, '0') + '-' + 
+                                      String(newExpiry.getDate()).padStart(2, '0') + ' ' +
+                                      String(newExpiry.getHours()).padStart(2, '0') + ':' +
+                                      String(newExpiry.getMinutes()).padStart(2, '0') + ':' +
+                                      String(newExpiry.getSeconds()).padStart(2, '0');
+                    keys[key].expiry = expiryStr;
+                    await saveKeys(keys, sha);
+                    loadKeys();
+                    showToast(`⏰ Đã gia hạn ${key} thêm ${days} ngày (Hết: ${expiryStr})`, 'success');
                     addLog('EXTEND_KEY', key + ' +' + days + ' ngày');
                 }
-            } catch(e) { showToast('❌ Lỗi: ' + e.message, 'error'); }
+            } catch (e) {
+                showToast('❌ Lỗi: ' + e.message, 'error');
+            }
         }
 
         async function markKeyUsed(key) {
@@ -906,16 +984,12 @@
 
         // ========== INIT ==========
         document.addEventListener('DOMContentLoaded', function() {
-            // Không tự động đăng nhập
             localStorage.removeItem('gem_license_session');
             const cfg = getConfig();
             document.getElementById('githubUser').value = cfg.githubUser||'';
             document.getElementById('githubRepo').value = cfg.githubRepo||'';
             document.getElementById('githubToken').value = cfg.githubToken||'';
         });
-
-        // ========== AUTO SYNC HWID ==========
-        // Có thể thêm auto sync nếu cần
     </script>
 </body>
 </html>
