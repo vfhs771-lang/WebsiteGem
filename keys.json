@@ -25,5 +25,14 @@
     "created": "2026-08-05 18:25:34",
     "status": "active",
     "used_count": "0"
+  },
+  "BAKHIA-EPQWZVKODUM": {
+    "plan": "premium",
+    "device": "single",
+    "hwid": null,
+    "expiry": "2026-08-07 07:54:54",
+    "created": "2026-08-06 07:54:54",
+    "status": "active",
+    "used_count": "0"
   }
 }
